@@ -1,0 +1,934 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Builder: Academic Atlas</title>
+    <link rel="icon" href="https://raw.githubusercontent.com/upskillr-ai/marketplace/0b33dc463400620e861ad1023edc25a6097ca9fb/Images/harvard_atlas.png" type="image/png">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .navbar {
+            background-color: #fff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 1rem;
+        }
+        
+        .navbar-brand, .navbarDropdownMenuLink {
+            font-weight: 500;
+            color: #004aad;
+        }
+        
+        .container {
+            padding: 2rem;
+        }
+        
+        .row {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        .card {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+            margin: 1rem;
+            transition: transform 0.3s ease-in-out;
+            display: flex;
+            flex-direction: column;
+            height: 100%; /* Ensure the card takes the full height */
+        }
+        
+        .card-body {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between; /* Distribute space between elements */
+        }
+        
+        .card-footer {
+            text-align: center;
+            margin-top: auto;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .card-img-top {
+            width: 100%;
+            height: auto;
+            object-fit: cover;
+            border-top-left-radius: 8px;
+            border-top-right-radius: 8px;
+        }
+        
+        
+        .card-body {
+            padding: 1.5rem;
+            text-align: center;
+        }
+        
+        .card-title {
+            color: #004aad;
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+        }
+        
+        .card-text {
+            font-size: 1rem;
+            margin-bottom: 1.5rem;
+            color: #666;
+        }
+
+        
+        .btn-primary {
+            background-color: #004aad; /* Updated color */
+            border-color: #004aad;
+            border-radius: 4px;
+            padding: 0.75rem 1.5rem;
+            font-size: 1rem;
+            transition: background-color 0.3s, border-color 0.3s, color 0.3s;
+        }
+        
+        .btn-primary:hover {
+            background-color: darken(#004aad, 10%); /* Darken color on hover */
+            border-color: darken(#004aad, 10%);
+        }
+        
+        .btn-outline-secondary {
+            border-color: #007bff;
+            color: #007bff;
+        }
+        
+        .btn-outline-secondary:hover {
+            background-color: #007bff;
+            color: #fff;
+        }
+        
+        .form-control, .btn {
+            border-radius: 4px;
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+        
+            .card {
+                margin: 0.5rem;
+            }
+        
+            .navbar {
+                padding: 0.5rem;
+            }
+        }
+        
+        /* Hover icons styling */
+        .hover-icons {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .edit-icon:hover, .delete-icon:hover, .share-icon:hover {
+            color: #0056b3;
+            background-color: rgba(0,123,255,0.1);
+        }
+        .upskillr-logo {
+            height: 50px; /* Adjust the logo size */
+            width: auto;
+            margin-right: 10px; /* Space between logo and text */
+            transition: transform 0.3s ease; /* Smooth zoom transition */
+        }
+
+        .upskillr-logo:hover {
+            transform: scale(1.1); /* Zoom effect on hover */
+        }
+        /* Dropdown Menu Styling */
+        .nav-item .dropdown-menu {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 4px;
+            border: none;
+            margin-top: 0.5rem;
+        }
+        
+        /* Dropdown Item Styling */
+        .nav-item .dropdown-item {
+            color: #333;
+            padding: 0.75rem 1.5rem;
+            font-size: 0.9rem;
+            font-weight: 400;
+        }
+        
+        /* Hover Effect for Dropdown Items */
+        .nav-item .dropdown-item:hover {
+            background-color: #f8f9fa;
+            color: #0056b3;
+        }
+        
+        /* Divider Styling */
+        .dropdown-divider {
+            margin: 0.5rem 0;
+            border-top: 1px solid #e9ecef;
+        }
+        
+        /* Dropdown Toggle Link Styling */
+        .nav-link.dropdown-toggle {
+            color: #004aad; /* Changed to your preferred color */
+            font-weight: 500;
+        }
+        
+        /* Adjusting the Dropdown Menu Alignment */
+        .dropdown-menu-end {
+            right: 0;
+            left: auto;
+        }
+        .navbar-text {
+            color: darkblue; /* Set the text color to dark blue */
+            line-height: 40px; /* Adjust the line-height to vertically center the text in the navbar */
+            margin-right: 1.5rem; /* Add space between the username and the Account dropdown */
+        }        
+    </style>
+
+</head>
+<body>
+
+    <!-- Error Box -->
+    <div id="errorBox" class="alert alert-danger" role="alert" style="display: none;"></div>
+
+    <nav class="navbar navbar-expand-lg">
+        <div class="container-fluid">
+            <!-- Upskillr Logo -->
+            <a class="navbar-brand" href="#">
+                <img src="{{ url_for('static', filename='images/admin_logo.png') }}" alt="Upskillr Logo" class="upskillr-logo" style="max-height: 50px;">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                <ul class="navbar-nav ms-auto"> <!-- ms-auto class aligns the content to the right -->
+                    {% if session['user_id'] %}
+                        <li class="nav-item">
+                            <span class="navbar-text">
+                                {{ username }}
+                            </span>
+                        </li>
+                    
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Account
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuLink"> <!-- dropdown-menu-end class added here -->
+                                <li><a class="dropdown-item d-none" type="button" id="openKeyModalButton">OpenAI Key</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item d-none" type="button" id="serpKeyModalButton">Google Search API Key</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="/usage_history">Usage History</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="/signout">Sign Out</a></li>
+                            </ul>
+                        </li>
+                    {% else %}
+                            <li class="nav-item"><a class="nav-link" href="/signup">Sign Up</a></li>
+                            <li class="nav-item"><a class="nav-link" href="/signin">Sign In</a></li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+    
+    
+<div class="container">
+    {% if session['user_id'] %}
+        <h1 class="text-center my-4">Welcome to Academic Atlas!</h1>
+        <br>
+        <br>
+        <!-- Tiles/Playcards Section -->
+        <div class="row">
+           <!-- Feature 1: Persona Dashboard -->
+           <div class="col-md-4">
+                <div class="card">
+                    <img src="{{ url_for('static', filename='images/academic_bot_builder.png') }}" class="card-img-top" alt="Persona Dashboard">
+                    <div class="card-body">
+                        <h5 class="card-title">Academic Bot Builder</h5>
+                        <p class="card-text">Customize your own academic chatbot to assist with course recommendations, scheduling, and resource guidance.</p>
+                        <a href="/persona_dashboard" class="btn btn-primary">Start</a>
+                    </div>
+                </div>
+            </div>
+        
+            <!-- Feature 3: Knowledge Base -->
+            <div class="col-md-4">
+                <div class="card">
+                    <img src="{{ url_for('static', filename='images/Knowledge_Base_Logo.png') }}" class="card-img-top" alt="Knowledge Base">
+                    <div class="card-body">
+                        <h5 class="card-title">Student Resource Vault</h5>
+                        <p class="card-text">Upload and access essential academic documents like resumes, course materials, and project reports.</p>
+                        <a href="/knowledge_base" class="btn btn-primary">Start</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Feature 2: Persona Marketplace -->
+            <div class="col-md-4">
+                <div class="card">
+                    <img src="{{ url_for('static', filename='images/Persona_Marketplace_Logo.png') }}" class="card-img-top" alt="Persona Marketplace">
+                    <div class="card-body">
+                        <h5 class="card-title">Academic Community Hub</h5>
+                        <p class="card-text">Share and explore custom academic bots created by other students for collaborative learning and planning.</p>
+                        <a href="/persona_marketplace" class="btn btn-primary">Start</a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <br>
+        <br>
+
+    </div>
+    {% else %}
+        <!-- The user is not logged in, display a message or redirect them -->
+        <div class="text-center mt-5">
+            <h1>Please sign in to access Academic Atlas features.</h1>
+        </div>
+        <br>
+        <br>
+        <div class="row">
+           <!-- Feature 1: Persona Dashboard -->
+           <div class="col-md-4">
+                <div class="card">
+                    <img src="{{ url_for('static', filename='images/academic_bot_builder.png') }}" class="card-img-top" alt="Persona Dashboard">
+                    <div class="card-body">
+                        <h5 class="card-title">Academic Bot Builder</h5>
+                        <p class="card-text">Customize your own academic chatbot to assist with course recommendations, scheduling, and resource guidance.</p>
+                        <a href="/signup" class="btn btn-primary">Explore</a>
+                    </div>
+                </div>
+            </div>
+        
+            <!-- Feature 3: Knowledge Base -->
+            <div class="col-md-4">
+                <div class="card">
+                    <img src="{{ url_for('static', filename='images/Knowledge_Base_Logo.png') }}" class="card-img-top" alt="Knowledge Base">
+                    <div class="card-body">
+                        <h5 class="card-title">Student Resource Vault</h5>
+                        <p class="card-text">Upload and access essential academic documents like resumes, course materials, and project reports.</p>
+                        <a href="/signup" class="btn btn-primary">Explore</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Feature 2: Persona Marketplace -->
+            <div class="col-md-4">
+                <div class="card">
+                    <img src="{{ url_for('static', filename='images/Persona_Marketplace_Logo.png') }}" class="card-img-top" alt="Persona Marketplace">
+                    <div class="card-body">
+                        <h5 class="card-title">Academic Community Hub</h5>
+                        <p class="card-text">Share and explore custom academic bots created by other students for collaborative learning and planning.</p>
+                        <a href="/signup" class="btn btn-primary">Explore</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+</div>
+
+        <script>
+
+            $(document).ready(function() {
+                // Check if the user is logged in and if the API key is set
+                {% if session['user_id'] %}
+                    $.get('/check_both_api_key', function(response) {
+                        if (!response.has_key) {
+                            showError("API keys are missing. Please set both your OpenAI API and Google Search API key.");
+                        } else {
+                            $("#errorBox").hide(); 
+                        }
+                    });
+                {% endif %}
+
+                // Code for updating character count for 'Persona Description'
+                $('#description').on('input', function() {
+                    var currentLength = $(this).val().length;
+                    $('#descriptionCount').text(currentLength + '/80');
+                });
+
+                // Update character count for editDescription
+                $('#editDescription').on('input', function() {
+                    var currentLength = $(this).val().length;
+                    $('#editDescriptionCount').text(currentLength + '/80');
+                });
+
+                // When the share icon is clicked
+                $(document).on('click', '.share-icon', function() {
+                    var personaId = $(this).data('id');
+                    $('#sharePersonaButton').data('id', personaId); // Set personaId to the share button
+                    // Fetch persona public URL and status
+                    $.get('/get_persona_public_url/' + personaId, function(response) {
+                        if(response.success) {
+                            $('#publicUrl').val(response.public_url);
+                            if (response.is_public) {
+                                $('input[name="publicStatus"][value="yes"]').prop('checked', true);
+                            } else if (response.is_public_without_key) {
+                                $('input[name="publicStatus"][value="yes_without_key"]').prop('checked', true);
+                            } else {
+                                $('input[name="publicStatus"][value="no"]').prop('checked', true);
+                            }
+                            $('#sharePersonaModal').modal('show');
+                        } else {
+                            alert('Error fetching public URL: ' + response.message);
+                        }
+                    });
+                });
+
+                // When the update button in the share modal is clicked
+                $('#sharePersonaButton').click(function() {
+                    var personaId = $(this).data('id'); // Retrieve personaId from the share button
+                    var publicStatus = $('input[name="publicStatus"]:checked').val();
+                    // Make the POST request
+                    $.post('/toggle_public_persona', {
+                        persona_id: personaId,
+                        make_public: publicStatus
+                    }, function(response) {
+                        if(response.success) {
+                            alert('Persona public status updated successfully');
+                            $('#sharePersonaModal').modal('hide');
+                            location.reload();
+                        } else {
+                            alert('Error updating persona public status: ' + response.message);
+                        }
+                    });
+                });
+
+                // Toggle Retrieval Files List
+                $('#retrievalToggle').change(function() {
+                    if (this.checked) {
+                        // Fetch and display files when toggle is on
+                        $.get('/get_files', function(response) {
+                            var filesList = $('#filesList');
+                            filesList.empty();
+                
+                            if (response.file_names.length === 0) {
+                                // Display a message if the knowledge base is empty
+                                filesList.append('<p>Your knowledge base is empty. Head over to the Knowledge Base section to get started.</p>');
+                            } else {
+                                // List the files if the knowledge base is not empty
+                                response.file_names.forEach(function(fileName) {
+                                    filesList.append(`
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" name="files" value="${fileName}" id="file_${fileName}">
+                                            <label class="form-check-label" for="file_${fileName}">${fileName}</label>
+                                        </div>
+                                    `);
+                                });
+                            }
+                            filesList.show();
+                        });
+                    } else {
+                        // Hide files list when toggle is off
+                        $('#filesList').hide();
+                    }
+                });
+
+                // Handle form submission
+                $("#addPersonaForm").submit(function(e) {
+                    e.preventDefault();
+                
+                    // Check if the user has an API key set
+                    $.get('/check_api_key', function(response) {
+                        if (response.has_key) {
+
+                            // Show the loading modal
+                            $('#loadingModal').modal({
+                                backdrop: 'static', // Disable clicking outside to close
+                                keyboard: false // Disable keyboard to close
+                            }).modal('show');
+
+                            var formData = new FormData($("#addPersonaForm")[0]);
+
+                            // Append new fields to formData
+                            formData.append('description', $('#description').val());
+                            $('#category option:selected').each(function() {
+                                formData.append('category[]', $(this).val());
+                            });
+
+                            formData.append('web_browsing', $('#webBrowsingToggle').is(':checked'));
+                            formData.append('code_interpreter', $('#codeInterpreterToggle').is(':checked'));                            
+                        
+                            console.log("Form Data:", formData); // Debugging line
+
+                            // Check if the retrieval toggle is on and if any files are selected
+                            if ($('#retrievalToggle').is(':checked')) {
+                                var selectedFiles = $('input[name="files"]:checked');
+                                if (selectedFiles.length > 0) {
+                                    selectedFiles.each(function() {
+                                        formData.append('selected_files', this.value);
+                                    });
+                                }
+                            }
+                
+                            // AJAX call to Flask backend to add persona
+                            $.ajax({
+                                url: '/add_persona',
+                                type: 'POST',
+                                data: formData,
+                                success: function(data) {
+                                    if (data.success) {
+                                        // Hide the loading modal
+                                        $('#loadingModal').modal('hide');
+
+                                        // Add the new persona to the grid view
+                                        let title = formData.get('title');
+                                        let prompt = formData.get('prompt');
+                                        let image = data.image_url || '/static/images/default.jpg';
+                                
+                                        let personaTile = `
+                                            <div class="col-md-4">
+                                                <div class="card mb-4">
+                                                    <img src="${image}" class="card-img-top" alt="${title}">
+                                                    <div class="card-body">
+                                                        <h5 class="card-title">${title}</h5>
+                                                    </div>
+                                                    <div class="card-footer">
+                                                        <a href="/chat/${title}" class="btn btn-primary">Go to Chat</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        `;
+                                        $("#personaGrid").append(personaTile);
+                                    }
+                                        // Refresh the page to reset the state
+                                        window.location.reload();
+                                },
+                                error: function() {
+                                    // Hide the loading modal in case of error too
+                                    $('#loadingModal').modal('hide');
+                                    // Here, you can add logic to show an error message to the user
+                                    alert('Error occurred while adding the persona.');
+                                },
+                                cache: false,
+                                contentType: false,
+                                processData: false
+                            });
+                        } else {
+                            // If the user doesn't have an API key, show the API key modal
+                            $("#openaiKeyModal").modal('show');
+                        }
+                    });
+                });
+                
+                // Show icons on hover
+                $(document).on('mouseenter', '.card', function() {
+                    $(this).find('.hover-icons').show();
+                }).on('mouseleave', '.card', function() {
+                    $(this).find('.hover-icons').hide();
+                });
+        
+                // When the edit icon is clicked, fetch and display the current persona details
+                $(document).on('click', '.edit-icon', function() {
+                    var personaId = $(this).data('id');
+                    if (personaId) {
+                        // Fetch persona data from the server
+                        $.get('/get_persona/' + personaId, function(response) {
+                            if(response.success) {
+                                // Pre-fill the modal form with the current persona details
+                                $('#editPersonaId').val(personaId);
+                                $('#editTitle').val(response.title);
+                                $('#editDescription').val(response.description); // Set description
+                                $('#editPrompt').val(response.prompt);
+                
+                                // Set categories
+                                var categories = response.categories; // Assuming categories are received as an array
+                                $('#editCategory').empty();
+                                // Populate categories (modify as per your categories source)
+                                var categoriesList = [
+                                                        "Software Development",
+                                                        "Business",
+                                                        "Finance and Accounting",
+                                                        "Office Productivity",
+                                                        "Personal Development",
+                                                        "Design",
+                                                        "Marketing",
+                                                        "Lifestyle",
+                                                        "Photography and Video",
+                                                        "Health and Fitness",
+                                                        "Music",
+                                                        "Teaching and Academics",
+                                                        "Others"
+                                                    ];
+                                categoriesList.forEach(function(category) {
+                                    var isSelected = categories.includes(category);
+                                    $('#editCategory').append(new Option(category, category, false, isSelected));
+                                });
+                
+                                // Set the retrieval toggle based on whether there are selected files
+                                var isRetrievalEnabled = response.selected_filenames.length > 0;
+                                $('#editRetrievalToggle').prop('checked', isRetrievalEnabled);
+                
+                                // Load files list
+                                loadFilesList('#editFilesList', response.selected_filenames, isRetrievalEnabled);
+                                // Set the states for the Web Browsing and Code Interpreter toggles
+                                $('#editWebBrowsingToggle').prop('checked', response.web_browsing);
+                                $('#editCodeInterpreterToggle').prop('checked', response.code_interpreter);
+                
+                                // Show the edit persona modal
+                                $('#editPersonaModal').modal('show');
+                            } else {
+                                alert('Error fetching persona details: ' + response.message);
+                            }
+                        });
+                    } else {
+                        console.error('Persona ID is undefined.');
+                    }
+                });
+                
+
+                // Function to load files list
+                function loadFilesList(filesListSelector, selectedFiles, showList) {
+                    var filesList = $(filesListSelector);
+                    filesList.empty();
+
+                    if (showList) {
+                        $.get('/get_files', function(filesResponse) {
+                            if (filesResponse.file_names.length === 0) {
+                                filesList.append('<p>Your knowledge base is empty. Head over to the Knowledge Base section to get started.</p>');
+                            } else {
+                                filesResponse.file_names.forEach(function(fileName) {
+                                    var isChecked = selectedFiles.includes(fileName);
+                                    filesList.append(`
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" name="files" value="${fileName}" id="edit_file_${fileName}" ${isChecked ? 'checked' : ''}>
+                                            <label class="form-check-label" for="edit_file_${fileName}">${fileName}</label>
+                                        </div>
+                                    `);
+                                });
+                            }
+                        });
+                    }
+
+                    if (showList) {
+                        filesList.show();
+                    } else {
+                        filesList.hide();
+                    }
+                }
+
+                // Toggle handler for retrieval in edit modal
+                $('#editRetrievalToggle').change(function() {
+                    var isToggled = $(this).is(':checked');
+                    loadFilesList('#editFilesList', [], isToggled);
+                });
+
+                // Handle form submission for editing a persona
+                $('#editPersonaForm').submit(function(e) {
+                    e.preventDefault();
+                    var formData = new FormData(this);
+                
+                    // Append new fields to formData
+                    formData.append('new_description', $('#editDescription').val());
+                    $('#editCategory option:selected').each(function() {
+                        formData.append('new_category[]', $(this).val());
+                    });
+                
+                    // Include retrieval toggle status in the form data
+                    formData.append('retrieval_toggle', $('#editRetrievalToggle').is(':checked') ? 'on' : 'off');
+                
+                    // Append selected files if retrieval toggle is on
+                    if ($('#editRetrievalToggle').is(':checked')) {
+                        var selectedFiles = $('#editFilesList input[name="files"]:checked');
+                        selectedFiles.each(function() {
+                            formData.append('selected_files', this.value);
+                        });
+                    }
+
+                    formData.append('web_browsing', $('#editWebBrowsingToggle').is(':checked'));
+                    formData.append('code_interpreter', $('#editCodeInterpreterToggle').is(':checked'));
+                    
+                    var userConfirmed = confirm("Are you sure you want to update this persona?");
+                    if (!userConfirmed) {
+                        return; // Stop the function if the user cancels the action
+                    }
+                
+                    $('#loadingModalEdit').modal({
+                        backdrop: 'static', // Disable clicking outside to close
+                        keyboard: false // Disable keyboard to close
+                    }).modal('show');
+                
+                    $.ajax({
+                        url: '/edit_persona',
+                        type: 'POST',
+                        data: formData,
+                        contentType: false,
+                        processData: false,
+                        success: function(response) {
+                            if(response.success) {
+                                $('#loadingModalEdit').modal('hide');
+                                alert('Persona updated successfully');
+                                location.reload();
+                            } else {
+                                $('#loadingModalEdit').modal('hide');
+                                alert('Error updating persona: ' + response.message);
+                            }
+                        }
+                    });
+                });
+                
+
+                // Intercept click event on the close button of the modal
+                $('#editPersonaModal .btn-secondary').click(function(event) {
+                    event.preventDefault(); // Prevent the default action
+
+                    var confirmClose = confirm("Are you sure you want to close? Changes will not be saved.");
+                    if (confirmClose) {
+                        // User confirmed they want to close the modal
+                        $('#editPersonaModal').modal('hide');
+                    } else {
+                        // User does not want to close the modal, do nothing
+                    }
+                });
+
+                // Delete persona
+                $(document).on('click', '.delete-icon', function() {
+                    let title = $(this).data('title');
+                    let persona_id = $(this).data('id');
+                    let card = $(this).closest('.card');
+                    let confirmation = confirm(`Are you sure you want to delete ${title}?`);
+        
+                    if (confirmation) {
+                        $.post("/delete_persona", {
+                            id: persona_id
+                        }, function(data) {
+                            if (data.success) {
+                                card.remove();
+                                window.location.reload();
+                            }
+                        });
+                    }
+                });
+        
+                // Function to show error modal
+                function showErrorModal(errorMessage) {
+                    $("#errorModalMessage").text(errorMessage);
+                    $("#errorModal").modal('show');
+                }
+
+                function maskApiKey(key) {
+                    if (key.length > 10) {
+                        return key.substring(0, 3) + '*'.repeat(key.length - 6) + key.substring(key.length - 3);
+                    }
+                    return key;
+                }
+        
+                // Fetch and display the saved API key when the "Key" button is clicked
+                $("#openKeyModalButton").click(function() {
+                    $.get("/get_saved_key", function(response) {
+                        if(response.success) {
+                            var maskedKey = maskApiKey(response.openai_api_key);
+                            $("#openaiApiKey").val(maskedKey);
+                        } else {
+                            $("#openaiApiKey").val('');
+                        }
+                        $("#openaiKeyModal").modal('show');
+                    });
+                });
+        
+                // Handle saving the OpenAI key
+                $("#saveOpenaiKey").click(function() {
+                    var apiKey = $("#openaiApiKey").val();
+                    if (!apiKey) {
+                        console.log("Please submit an API key error should come."); // <-- Add this line
+                        showError("Please submit an API key.");
+                    } else if (!apiKey.startsWith('sk-')) {
+                        // Display error if API key format is invalid
+                        console.log("Invalid API key. It must start with 'sk-'."); // <-- Add this line
+                        showError("Invalid API key");
+                    } else {
+                        // Save the API key if it is valid
+                        $.post("/update_key", { openai_api_key: apiKey }, function(response) {
+                            if(response.success) {
+                                alert("API key saved successfully");
+                                $("#openaiKeyModal").modal('hide');
+                                window.location.reload();
+                                console.log("API key saved successfully"); // <-- Add this line
+                            } else {
+                                console.error("Failed to save API key: " + response.message);
+                                showErrorModal(response.message);
+                            }
+                        });
+                    }    
+                });
+
+                // Fetch and display the saved SERP API key when the "Key" button is clicked
+                $("#serpKeyModalButton").click(function() {
+                    $.get("/get_saved_serp_key", function(response) {
+                        if(response.success) {
+                            var maskedKey = maskApiKey(response.serp_api_key);
+                            $("#serpApiKey").val(maskedKey);
+                        } else {
+                            $("#serpApiKey").val('');
+                        }
+                        $("#serpKeyModal").modal('show');
+                    });
+                });
+
+                // Handle saving the OpenAI key
+                $("#saveSerpKey").click(function() {
+                    var serpapiKey = $("#serpApiKey").val();
+                    if (!serpapiKey) {
+                        console.log("Please submit SERP API key error should come."); // <-- Add this line
+                        showError("Please submit Google Custom Search API key.");
+                    } else {
+                        // Save the API key if it is valid
+                        $.post("/update_serp_key", { serp_api_key: serpapiKey }, function(response) {
+                            if(response.success) {
+                                alert("Google Custom Search API key saved successfully");
+                                $("#serpKeyModal").modal('hide');
+                                window.location.reload();
+                                console.log("Google Custom Search API key saved successfully"); // <-- Add this line
+                            } else {
+                                console.log("Failed to save Google Custom Search API key: " + response.message);
+                                showErrorModal(response.message);
+                            }
+                        });
+                    }    
+                });
+
+                // Function to display an error message
+                function showError(message) {
+                    console.log("Showing error: ", message); // Debugging line
+                    var errorBox = $("#errorBox");
+                    if (errorBox.length === 0) { // Check if errorBox doesn't exist, create it
+                        errorBox = $('<div id="errorBox" class="alert alert-danger" role="alert"></div>');
+                        $("body").prepend(errorBox);
+                    }
+                    errorBox.text(message).show();
+                }
+            });
+
+            function copyToClipboard(element) {
+                var copyText = document.getElementById(element);
+                copyText.select();
+                copyText.setSelectionRange(0, 99999); // For mobile devices
+                navigator.clipboard.writeText(copyText.value).then(function() {
+                    alert("URL Copied to Clipboard");
+                }, function(err) {
+                    console.error('Could not copy text: ', err);
+                });
+            }
+            
+
+        </script>
+        
+    
+    <!-- OpenAI API Key Modal -->
+    <div class="modal fade" id="openaiKeyModal" tabindex="-1" aria-labelledby="openaiKeyModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="openaiKeyModalLabel">OpenAI API Key</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="text" class="form-control" id="openaiApiKey" placeholder="Enter your OpenAI API key">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" id="saveOpenaiKey">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SERP Key Modal -->
+    <div class="modal fade" id="serpKeyModal" tabindex="-1" aria-labelledby="serpKeyModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="serpKeyModalLabel">Google Custom Search API Key</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="text" class="form-control" id="serpApiKey" placeholder="Enter your Google Custom Search API key">
+                </div>
+                <div class="modal-body">
+                    <p>Get your free Google Custom Search API key from <a href="https://developers.google.com/custom-search/v1/overview">here</a></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" id="saveSerpKey">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Error Modal -->
+    <div class="modal fade" id="errorModal" tabindex="-1" aria-labelledby="errorModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="errorModalLabel">Error</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="errorModalMessage">
+                    <!-- Error message will be set here -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Share Persona Modal -->
+    <div class="modal fade" id="sharePersonaModal" tabindex="-1" aria-labelledby="sharePersonaModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="sharePersonaModalLabel">Share Persona</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Do you want to make this persona public?</p>
+                    <div class="mb-3 form-check">
+                        <input type="radio" class="form-check-input" id="publicYesWithoutKey" name="publicStatus" value="yes_without_key">
+                        <label class="form-check-label" for="publicYesWithoutKey">Yes without key (Available on MarketPlace)</label>
+                    </div>                    
+                    <div class="mb-3 form-check">
+                        <input type="radio" class="form-check-input" id="publicYes" name="publicStatus" value="yes">
+                        <label class="form-check-label" for="publicYes">Yes with your key</label>
+                    </div>
+                    <div class="mb-3 form-check">
+                        <input type="radio" class="form-check-input" id="publicNo" name="publicStatus" value="no" checked>
+                        <label class="form-check-label" for="publicNo">No</label>
+                    </div>
+                    <div class="mb-3">
+                        <label for="publicUrl" class="form-label">Persona Public URL</label>
+                        <input type="text" class="form-control" id="publicUrl" readonly>
+                        <button type="button" class="btn btn-secondary mt-2" onclick="copyToClipboard('publicUrl')">Copy to Clipboard</button>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="sharePersonaButton">Update</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+ 
+    {% include 'footer_2.html' %}
+
+</body>
+</html>

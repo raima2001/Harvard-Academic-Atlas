@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "genial-retina-409607",
+  "private_key_id": "a21360ede8f79e71b3fca3774e79d53ecd0ae6a4",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQCn+VWaVWcnSRA9\nrUq6PTcSBgCK94YBdGgBW+bQFWP7f/1UwxfBWqLOhJ/kaI/VxPeaYeVJRpyHyv58\nQaUydEsrxzKHpb7lvRKftMBdx40Zr+twubqoMWtwBLWkxVyauXaprwnoVPMtROCQ\nwbVJrU2o0PqxL19Ka4ApLb3HZUK/RBjbZ0Cgrqa4NBe8X6840cV24AxwvVmgzknD\nPbiNqVzTiK0q8uqck91mSEz/gdFy1UzhyBSVGUvpMJbcqvBuFes8R7vVkvVHtFo6\ngGblSly2ugrKVvWoM1JcUNEwEYJqaDgCL8EeauQ3/JQ7xuyOK5l85d4lZzGlQy14\nAWpik42FAgMBAAECggEAAmXRPoA8ljd5R2AbYngwOo4iYNlyrL+kImzU6SB9CmCD\n1btpMeXg0BDdlW2WrAcBP89o7fhXkKqpok1vlb5KOmhABOatSGtAAk6atlv8XCMC\nOdw02WTHM1Sl4SG+FilSk85/VjUsOXezuu1A8LnME35ULcZO1mmdbTkNbfS4lLFW\ntvrMNRLxIzjJ57RYcWI5zl5UHJwm2Y1qhalp06TuXuHp+4m5t9+y4nYAdg4iigtZ\ntgoxKPeoSTC32JwDdqh6++ptUdPTOafkvt0dDezZMtmBCk3DDtpJmAc3gu5TIKa5\n7B5KEEwXshVo7gYIN1deUpQUOZIjTa5sf2YxdYDEQQKBgQDg0e0ft9GFMFzKAWbo\nlPZwCpa6lMCiouMlcdlahv+yP25n0CgFJ1+LfJ4GZekzuWai+iDtkgKVi9aE8Vo1\nHyJpg854P4p6ujqMecJ2buhmDnd8GR1PNymMNT1RTXgVbtLaPS0VqdchU/stPknv\nD4GPTFxNJx5gbzw9PUvrh6fU4QKBgQC/RSEkF3r4KiLL4pUgeLXtrwUvq3qa4wcr\nr2icrRvGRKqFifC6Dpuwak/bCi1RvL8MCeLA5ZWd6iTVw2aaj2lGOuR4d8FQsHh2\nY1QyIMG1EFQZ5Wjkh2IKepdjYpNjr2ls3OWc7Z/w0NIxpYUiVd39EaRNFkQzFy3i\ndVrRt7HpJQKBgQDgo2HYK4gDGUvd3IDDLPUBBtONI01INJHavGN9/R5JMPBUcr1K\nSQlDCwWrRvE5aauQdXWpbBeA7fUvaSnFopJz8+u+Y18vOh1+d7tDM5arQxFIwp9y\no5+0JQ5bypiOcenlfvMpjkcTWiLEFlUxtcCzOo2P2eKUYRFD75eIhEfCgQKBgQCg\npWtEaQQ7UwiOvewKrdf/nbR5aUk8tdnb8yOmFC7zw9CFAGpTmtlgvqn7ivytXh4H\n+nWdFjcnvvTZJZkTz8fX2Lb0B4EySEWlCaA5yhFoBiLc7TXAW4UY0AY+zxiD7Vxa\ntt2ThHGFTZ59XEwJnp0oZJzesgjt8FX1kiOJaQPgkQKBgFpINHkcyl0nc/tHfslr\npWDhPPjWmBeS+FzlwWal+I3HogAPSkhT6gPaYBkQ7cr2uBD6Vekxn1xYXN/nJOhH\nxb89v5wZf7wNAKPLHQ+EmRoCzNhHyM0v72lUU9RtONHWEsytWPOE1skSFvPeRerh\nRQ8GazT/u7whkVbzGij7D7nC\n-----END PRIVATE KEY-----\n",
+  "client_email": "google-sheet-access@genial-retina-409607.iam.gserviceaccount.com",
+  "client_id": "113729718211407305349",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/google-sheet-access%40genial-retina-409607.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}

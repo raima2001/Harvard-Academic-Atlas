@@ -1,0 +1,1073 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Academic Bot Dashboard: Academic Atlas</title>
+    <link rel="icon" href="https://raw.githubusercontent.com/upskillr-ai/marketplace/0b33dc463400620e861ad1023edc25a6097ca9fb/Images/harvard_atlas.png" type="image/png">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        .navbar {
+            background-color: #ffffff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar-brand {
+            font-weight: 500;
+            color: #007bff;
+        }
+
+        .container {
+            padding-top: 20px;
+        }
+
+        .card {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .card:hover {
+            transform: scale(1.05);
+        }
+
+        .persona-image {
+            width: 100%;
+            height: auto; /* maintain aspect ratio */
+            border-top-left-radius: .25rem;
+            border-top-right-radius: .25rem;
+        }
+
+        .card-body, .card-footer {
+            text-align: center;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+
+        .btn-outline-secondary {
+            border-color: #007bff;
+            color: #007bff;
+        }
+
+        .btn-outline-secondary:hover {
+            background-color: #007bff;
+            color: #fff;
+        }
+
+        .form-control, .btn {
+            border-radius: 5px;
+        }
+        .hover-icons {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 90px; /* Increased width to space out icons */
+        }
+
+        .edit-icon, .delete-icon, .share-icon {
+            font-size: 1.2rem; /* Adjust the size to fit within the card */
+            color: #007bff;
+            padding: 5px;
+            border: 2px solid #007bff;
+            border-radius: 5px; /* Slight rounding of corners */
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 24px; /* Adjust icon size */
+            height: 24px; /* Adjust icon size */
+            transition: all 0.3s; /* Smooth transition for hover effects */
+            margin-left: 5px; /* Space between icons */
+        }
+
+        /* Hover effect for edit and delete icons */
+        .edit-icon:hover, .delete-icon:hover, .share-icon:hover {
+            border-color: #0056b3;
+            color: #0056b3;
+            background-color: rgba(0,123,255,0.1);
+        }
+        
+
+        /* Additional CSS for persona cards */
+        .card {
+            /* Set a fixed width and height */
+            width: 300px; /* Adjust as needed */
+            height: 380px; /* Adjust as needed */
+            margin: 0 auto; /* Center the cards if they are smaller than the column width */
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card-body {
+            flex-grow: 1; /* Allow the body to grow and push the footer down */
+        }
+
+        .persona-image {
+            width: 100%; /* Width is always 100% of the card */
+            height: 180px; /* Set a fixed height for the image */
+            object-fit: cover; /* Cover the area without stretching the image */
+            border-top-left-radius: .25rem;
+            border-top-right-radius: .25rem;
+        }
+
+        /* Make sure the grid layout is consistent */
+        #personaGrid .col-md-4 {
+            /* Override the default Bootstrap padding for consistent spacing */
+            padding: 10px;
+            display: flex;
+            justify-content: center;
+        }
+        :root {
+            --primary-color: #004AAD; /* Professional blue */
+            --secondary-color: #f4f4f4; /* Secondary color */
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: var(--secondary-color);
+            margin: 0;
+            padding: 0;
+            color: #333; /* Dark gray for text */
+        }
+
+        .navbar {
+            background-color: #ffffff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar-brand {
+            font-weight: 500;
+            color: var(--primary-color); /* Updated color */
+            display: flex;
+            align-items: center;
+        }
+
+        /* ... [other existing styles] ... */
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+
+        .btn-outline-secondary {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+            background-color: #fff; /* White background */
+        }
+
+        .btn-outline-secondary:hover {
+            background-color: var(--primary-color);
+            color: #fff;
+        }
+
+        .upskillr-logo {
+            height: 50px; /* Adjust the logo size */
+            width: auto;
+            margin-right: 10px; /* Space between logo and text */
+            transition: transform 0.3s ease; /* Smooth zoom transition */
+        }
+
+        .upskillr-logo:hover {
+            transform: scale(1.1); /* Zoom effect on hover */
+        }
+        h1.text-center.my-4, h2.text-center.my-4 {
+            color: #004AAD; /* Professional blue color */
+        }
+        .input-file-container {
+            width: 30%; /* Adjust the width as needed */
+        }
+        
+        @media (max-width: 768px) {
+            .input-file-container {
+                width: 100%; /* Full width on smaller screens */
+            }
+        }
+        .card {
+            /* ... [other existing card styles] ... */
+            border-radius: 20px; /* Increase border-radius for more rounded edges */
+        }
+
+        .persona-image {
+            /* Adjust the border-radius of the top corners of the image to match the card */
+            border-top-left-radius: 20px;
+            border-top-right-radius: 20px;
+        }  
+        .navbar-toggler {
+            border: none;
+            outline: none;
+        }
+        
+        .dropdown-menu {
+            background-color: #ffffff; /* White background */
+            border-radius: 5px; /* Rounded corners */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Shadow for dropdown */
+        }
+        
+        .dropdown-item {
+            color: #333333; /* Dark gray color for text */
+            padding: 10px 15px; /* Padding for dropdown items */
+            transition: background-color 0.3s ease; /* Smooth transition for hover */
+        }
+        
+        .dropdown-item:hover {
+            background-color: #f4f4f4; /* Light gray background on hover */
+        }
+        
+        .navbar-nav .dropdown-menu {
+            border: 1px solid #004AAD; /* Blue border */
+            border-radius: 0.25rem; /* Rounded corners */
+        }
+        
+        .navbar-nav .dropdown-menu .dropdown-item {
+            padding: 0.5rem 1.5rem; /* Padding for dropdown items */
+            color: #004AAD; /* Text color */
+        }
+        
+        .navbar-nav .dropdown-menu .dropdown-item:hover,
+        .navbar-nav .dropdown-menu .dropdown-item:focus {
+            color: #fff; /* Text color on hover/focus */
+            background-color: #0056b3; /* Background color on hover/focus */
+        }
+        
+        .navbar-nav .dropdown-menu .dropdown-item:not(:last-child) {
+            border-bottom: 1px solid #e9ecef; /* Separator between items */
+        }
+        
+        .custom-dropdown-shift {
+            margin-right: 15px; /* Shift the dropdown to the left */
+        }
+        
+        /* Custom styles for the 'Options' dropdown button */
+        .navbar .dropdown-toggle {
+            border: 1px solid #007bff; /* Blue border color */
+            border-radius: 0.25rem; /* Slightly rounded corners for the dropdown button */
+            transition: all 0.2s; /* Transition for hover effects */
+            color: #004AAD;
+        }
+        
+        /* Hover effect for the dropdown button */
+        .navbar .dropdown-toggle:hover,
+        .navbar .dropdown-toggle:focus {
+            border-color: #004AAD; /* Darker blue border on hover/focus */
+            background-color: rgba(0,123,255,0.1); /* Slight background color change on hover/focus */
+        }
+    </style>
+
+</head>
+<body>
+
+    <!-- Error Box -->
+    <div id="errorBox" class="alert alert-danger" role="alert" style="display: none;"></div>
+
+    <!-- Edit Persona Modal -->
+    <div class="modal fade" id="editPersonaModal" tabindex="-1" aria-labelledby="editPersonaModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editPersonaModalLabel">Edit Academic Bot</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form id="editPersonaForm">
+                    <div class="modal-body">
+                        <input type="hidden" id="editPersonaId" name="id">
+                        
+                        <div class="mb-3">
+                            <label for="editTitle" class="form-label">Academic Bot Title</label>
+                            <input type="text" class="form-control" id="editTitle" name="new_title" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="editDescription" class="form-label">Academic Bot Description</label>
+                            <input type="text" class="form-control" id="editDescription" name="new_description" maxlength="80" required>
+                            <small id="editDescriptionCount">0/80</small>
+                        </div>
+                        
+
+                        <div class="mb-3">
+                            <label for="editPrompt" class="form-label">Prompt</label>
+                            <textarea class="form-control" id="editPrompt" name="new_prompt" rows="3" required></textarea>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="editCategory" class="form-label">Academic Bot Category</label>
+                            <select class="form-control" id="editCategory" name="new_category[]" multiple required>
+                                <!-- Add options here -->
+                            </select>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="editImage" class="form-label">Image</label>
+                            <input type="file" class="form-control" id="editImage" name="new_image" accept="image/*">
+                        </div>
+
+                        <!-- Web Browsing Toggle Button for Edit Modal -->
+                        <div class="form-check form-switch mb-3 d-none"> <!-- d-none class added here -->
+                            <input class="form-check-input" type="checkbox" id="editWebBrowsingToggle">
+                            <label class="form-check-label" for="editWebBrowsingToggle">Web Browsing</label>
+                        </div>
+
+                        <!-- Code Interpreter Toggle Button for Edit Modal -->
+                        <div class="form-check form-switch mb-3 d-none"> <!-- d-none class added here -->
+                            <input class="form-check-input" type="checkbox" id="editCodeInterpreterToggle">
+                            <label class="form-check-label" for="editCodeInterpreterToggle">Code Interpreter</label>
+                        </div>
+
+                        <!-- Retrieval Toggle Button for Edit Modal -->
+                        <div class="form-check form-switch mb-3">
+                            <input class="form-check-input" type="checkbox" id="editRetrievalToggle">
+                            <label class="form-check-label" for="editRetrievalToggle">Retrieval</label>
+                        </div>
+
+                        <!-- Container for Files List in Edit Modal -->
+                        <div id="editFilesList" class="mb-3" style="display: none;">
+                            <!-- Files will be listed here -->
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Update</button>
+                    </div>                
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <nav class="navbar navbar-expand-lg">
+        <div class="container-fluid">
+            <!-- Upskillr Logo -->
+            <a class="navbar-brand" href="#">
+                <img src="{{ url_for('static', filename='images/admin_logo.png') }}" alt="Upskillr Logo" class="upskillr-logo" style="max-height: 50px;">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                <ul class="navbar-nav ms-auto"> <!-- ms-auto class aligns the content to the right -->
+                    {% if session['user_id'] %}
+                    <div class="d-flex">
+                        <a href="{{ url_for('index') }}" class="btn btn-primary m-2">Back</a>
+                    </div>
+                    {% else %}
+                            <li class="nav-item"><a class="nav-link" href="/signup">Sign Up</a></li>
+                            <li class="nav-item"><a class="nav-link" href="/signin">Sign In</a></li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+    
+    
+
+<div class="container">
+    {% if session['user_id'] %}
+        <h1 class="text-center my-4">Academic Bot Dashboard</h1>
+            <!-- Row for Persona Title and Description -->
+        <form id="addPersonaForm" class="mb-4" enctype="multipart/form-data">
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label for="title" class="form-label">Academic Bot Title</label>
+                    <input type="text" class="form-control" id="title" name="title" required placeholder="Name your Academic Bot">
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="description" class="form-label">Academic Bot Description</label>
+                    <input type="text" class="form-control" id="description" name="description" maxlength="80" required placeholder="Describe your Academic Bot under 80 characters">
+                    <small id="descriptionCount">0/80</small>
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="prompt" class="form-label">Prompt</label>
+                <textarea class="form-control" id="prompt" name="prompt" rows="5" style="resize: vertical;" required placeholder="Who is this Academic Bot? How does it behave? What should it do?"></textarea>
+            </div>
+            <!-- Row for Persona Category and Image -->
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label for="category" class="form-label">Academic Bot Category</label>
+                    <select class="form-control" id="category" name="category[]" multiple required>
+                        <option value="Software Development">Software Development</option>
+                        <option value="Business">Business</option>
+                        <option value="Finance and Accounting">Finance and Accounting</option>
+                        <option value="Office Productivity">Office Productivity</option>
+                        <option value="Personal Development">Personal Development</option>
+                        <option value="Design">Design</option>
+                        <option value="Marketing">Marketing</option>
+                        <option value="Lifestyle">Lifestyle</option>
+                        <option value="Photography and Video">Photography and Video</option>
+                        <option value="Health and Fitness">Health and Fitness</option>
+                        <option value="Music">Music</option>
+                        <option value="Teaching and Academics">Teaching and Academics</option>
+                        <option value="Others">Other</option>                        
+                    </select>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="image" class="form-label">Image</label>
+                    <input type="file" class="form-control" id="image" name="image" accept="image/*">
+                </div>
+            </div>         
+            <!-- Web Browsing Toggle Button -->
+            <div class="form-check form-switch mb-3 d-none">
+                <input class="form-check-input" type="checkbox" id="webBrowsingToggle">
+                <label class="form-check-label" for="webBrowsingToggle">Web Browsing</label>
+            </div>
+            <!-- Code Interpreter Toggle Button -->
+            <div class="form-check form-switch mb-3 d-none">
+                <input class="form-check-input" type="checkbox" id="codeInterpreterToggle">
+                <label class="form-check-label" for="codeInterpreterToggle">Code Interpreter</label>
+            </div>
+            <!-- Retrieval Toggle Button -->
+            <div class="form-check form-switch mb-3">
+                <input class="form-check-input" type="checkbox" id="retrievalToggle">
+                <label class="form-check-label" for="retrievalToggle">Retrieval</label>
+            </div>
+            <!-- Container for Files List -->
+            <div id="filesList" class="mb-3" style="display: none;">
+                <!-- Files will be listed here -->
+            </div>
+            <button type="submit" class="btn btn-primary">Add Academic Bot</button>
+        </form>
+
+        <!-- Section Title for Persona Library -->
+        <h2 class="text-center my-4">Your Academic Bot Library</h2>
+
+        <!-- Grid View for Personas -->
+        <div id="personaGrid" class="row">
+            {% for persona in personas %}
+            <div class="col-md-4">
+                <div class="card mb-4 persona-card">
+                    <div class="card-overlay">
+                        <center><img src="{{ persona.image_url }}" class="card-img-top persona-image" alt="{{ persona.title }}"></center>
+                        <div class="hover-icons" style="display:none;">
+                            <!-- #hello Inside each persona card -->
+                            <span class="share-icon" data-id="{{ persona.id }}" data-title="{{ persona.title }}" data-toggle="modal" data-target="#sharePersonaModal">🔗</span>
+                            <!-- Ensure you include the persona's ID in the data-id attribute -->
+                            <span class="edit-icon" data-id="{{ persona.id }}" data-title="{{ persona.title }}">✏️</span>
+                            <span class="delete-icon" data-id="{{ persona.id }}">🗑️</span>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <center><h5 class="card-title">{{ persona.title }}</h5></center>
+                        <p class="card-description">{{ persona.description }}</p> <!-- Persona description -->
+                    </div>
+                    <div class="card-footer">
+                        <center><a href="/chat/{{ persona.title }}/{{ persona.id }}" class="btn btn-primary" target="_blank">Go to Chat</a></center>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}            
+        </div>
+
+    </div>
+    {% else %}
+        <!-- The user is not logged in, display a message or redirect them -->
+        <div class="text-center mt-5">
+            <h1>Please sign in to access the dashboard.</h1>
+        </div>
+    {% endif %}
+</div>
+    <div class="container mt-5">
+
+<!-- Loading Modal -->
+<div class="modal" id="loadingModal" tabindex="-1" aria-labelledby="loadingModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body text-center">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <p class="mt-3">Kindly wait for a couple of minutes. We are building your Academic Bot.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+        <script>
+
+            $(document).ready(function() {
+                // Check if the user is logged in and if the API key is set
+                {% if session['user_id'] %}
+                    $.get('/check_both_api_key', function(response) {
+                        if (!response.has_key) {
+                            showError("API keys are missing. Please set both your OpenAI API and Google Search API key.");
+                        } else {
+                            $("#errorBox").hide(); 
+                        }
+                    });
+                {% endif %}
+
+                // Code for updating character count for 'Persona Description'
+                $('#description').on('input', function() {
+                    var currentLength = $(this).val().length;
+                    $('#descriptionCount').text(currentLength + '/80');
+                });
+
+                // Update character count for editDescription
+                $('#editDescription').on('input', function() {
+                    var currentLength = $(this).val().length;
+                    $('#editDescriptionCount').text(currentLength + '/80');
+                });
+
+                // When the share icon is clicked
+                $(document).on('click', '.share-icon', function() {
+                    var personaId = $(this).data('id');
+                    $('#sharePersonaButton').data('id', personaId); // Set personaId to the share button
+                    // Fetch persona public URL and status
+                    $.get('/get_persona_public_url/' + personaId, function(response) {
+                        if(response.success) {
+                            $('#publicUrl').val(response.public_url);
+                            if (response.is_public) {
+                                $('input[name="publicStatus"][value="yes"]').prop('checked', true);
+                            } else if (response.is_public_without_key) {
+                                $('input[name="publicStatus"][value="yes_without_key"]').prop('checked', true);
+                            } else {
+                                $('input[name="publicStatus"][value="no"]').prop('checked', true);
+                            }
+                            $('#sharePersonaModal').modal('show');
+                        } else {
+                            alert('Error fetching public URL: ' + response.message);
+                        }
+                    });
+                });
+
+                // When the update button in the share modal is clicked
+                $('#sharePersonaButton').click(function() {
+                    var personaId = $(this).data('id'); // Retrieve personaId from the share button
+                    var publicStatus = $('input[name="publicStatus"]:checked').val();
+                    // Make the POST request
+                    $.post('/toggle_public_persona', {
+                        persona_id: personaId,
+                        make_public: publicStatus
+                    }, function(response) {
+                        if(response.success) {
+                            alert('Academic Bot public status updated successfully');
+                            $('#sharePersonaModal').modal('hide');
+                            location.reload();
+                        } else {
+                            alert('Error updating Academic Bot public status: ' + response.message);
+                        }
+                    });
+                });
+
+                // Toggle Retrieval Files List
+                $('#retrievalToggle').change(function() {
+                    if (this.checked) {
+                        // Fetch and display files when toggle is on
+                        $.get('/get_files', function(response) {
+                            var filesList = $('#filesList');
+                            filesList.empty();
+                
+                            if (response.file_names.length === 0) {
+                                // Display a message if the knowledge base is empty
+                                filesList.append('<p>Your Resource Vault is empty. Head over to the Resource Vault section to get started.</p>');
+                            } else {
+                                // List the files if the knowledge base is not empty
+                                response.file_names.forEach(function(fileName) {
+                                    filesList.append(`
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" name="files" value="${fileName}" id="file_${fileName}">
+                                            <label class="form-check-label" for="file_${fileName}">${fileName}</label>
+                                        </div>
+                                    `);
+                                });
+                            }
+                            filesList.show();
+                        });
+                    } else {
+                        // Hide files list when toggle is off
+                        $('#filesList').hide();
+                    }
+                });
+
+                // Handle form submission
+                $("#addPersonaForm").submit(function(e) {
+                    e.preventDefault();
+                
+                    // Check if the user has an API key set
+                    $.get('/check_api_key', function(response) {
+                        if (response.has_key) {
+
+                            // Show the loading modal
+                            $('#loadingModal').modal({
+                                backdrop: 'static', // Disable clicking outside to close
+                                keyboard: false // Disable keyboard to close
+                            }).modal('show');
+
+                            var formData = new FormData($("#addPersonaForm")[0]);
+
+                            // Append new fields to formData
+                            formData.append('description', $('#description').val());
+                            $('#category option:selected').each(function() {
+                                formData.append('category[]', $(this).val());
+                            });
+
+                            formData.append('web_browsing', $('#webBrowsingToggle').is(':checked'));
+                            formData.append('code_interpreter', $('#codeInterpreterToggle').is(':checked'));                            
+                        
+                            console.log("Form Data:", formData); // Debugging line
+
+                            // Check if the retrieval toggle is on and if any files are selected
+                            if ($('#retrievalToggle').is(':checked')) {
+                                var selectedFiles = $('input[name="files"]:checked');
+                                if (selectedFiles.length > 0) {
+                                    selectedFiles.each(function() {
+                                        formData.append('selected_files', this.value);
+                                    });
+                                }
+                            }
+                
+                            // AJAX call to Flask backend to add persona
+                            $.ajax({
+                                url: '/add_persona',
+                                type: 'POST',
+                                data: formData,
+                                success: function(data) {
+                                    if (data.success) {
+                                        // Hide the loading modal
+                                        $('#loadingModal').modal('hide');
+
+                                        // Add the new persona to the grid view
+                                        let title = formData.get('title');
+                                        let prompt = formData.get('prompt');
+                                        let image = data.image_url || '/static/images/default.jpg';
+                                
+                                        let personaTile = `
+                                            <div class="col-md-4">
+                                                <div class="card mb-4">
+                                                    <img src="${image}" class="card-img-top" alt="${title}">
+                                                    <div class="card-body">
+                                                        <h5 class="card-title">${title}</h5>
+                                                    </div>
+                                                    <div class="card-footer">
+                                                        <a href="/chat/${title}" class="btn btn-primary" target="_blank">Go to Chat</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        `;
+                                        $("#personaGrid").append(personaTile);
+                                    }
+                                        // Refresh the page to reset the state
+                                        window.location.reload();
+                                },
+                                error: function() {
+                                    // Hide the loading modal in case of error too
+                                    $('#loadingModal').modal('hide');
+                                    // Here, you can add logic to show an error message to the user
+                                    alert('Error occurred while adding the Academic Bot.');
+                                },
+                                cache: false,
+                                contentType: false,
+                                processData: false
+                            });
+                        } else {
+                            // If the user doesn't have an API key, show the API key modal
+                            $("#openaiKeyModal").modal('show');
+                        }
+                    });
+                });
+                
+                // Show icons on hover
+                $(document).on('mouseenter', '.card', function() {
+                    $(this).find('.hover-icons').show();
+                }).on('mouseleave', '.card', function() {
+                    $(this).find('.hover-icons').hide();
+                });
+        
+                // When the edit icon is clicked, fetch and display the current persona details
+                $(document).on('click', '.edit-icon', function() {
+                    var personaId = $(this).data('id');
+                    if (personaId) {
+                        // Fetch persona data from the server
+                        $.get('/get_persona/' + personaId, function(response) {
+                            if(response.success) {
+                                // Pre-fill the modal form with the current persona details
+                                $('#editPersonaId').val(personaId);
+                                $('#editTitle').val(response.title);
+                                $('#editDescription').val(response.description); // Set description
+                                $('#editPrompt').val(response.prompt);
+                
+                                // Set categories
+                                var categories = response.categories; // Assuming categories are received as an array
+                                $('#editCategory').empty();
+                                // Populate categories (modify as per your categories source)
+                                var categoriesList = [
+                                                        "Software Development",
+                                                        "Business",
+                                                        "Finance and Accounting",
+                                                        "Office Productivity",
+                                                        "Personal Development",
+                                                        "Design",
+                                                        "Marketing",
+                                                        "Lifestyle",
+                                                        "Photography and Video",
+                                                        "Health and Fitness",
+                                                        "Music",
+                                                        "Teaching and Academics",
+                                                        "Others"
+                                                    ];
+                                categoriesList.forEach(function(category) {
+                                    var isSelected = categories.includes(category);
+                                    $('#editCategory').append(new Option(category, category, false, isSelected));
+                                });
+                
+                                // Set the retrieval toggle based on whether there are selected files
+                                var isRetrievalEnabled = response.selected_filenames.length > 0;
+                                $('#editRetrievalToggle').prop('checked', isRetrievalEnabled);
+                
+                                // Load files list
+                                loadFilesList('#editFilesList', response.selected_filenames, isRetrievalEnabled);
+                                // Set the states for the Web Browsing and Code Interpreter toggles
+                                $('#editWebBrowsingToggle').prop('checked', response.web_browsing);
+                                $('#editCodeInterpreterToggle').prop('checked', response.code_interpreter);
+                
+                                // Show the edit persona modal
+                                $('#editPersonaModal').modal('show');
+                            } else {
+                                alert('Error fetching Academic Bot details: ' + response.message);
+                            }
+                        });
+                    } else {
+                        console.error('Academic Bot ID is undefined.');
+                    }
+                });
+                
+
+                // Function to load files list
+                function loadFilesList(filesListSelector, selectedFiles, showList) {
+                    var filesList = $(filesListSelector);
+                    filesList.empty();
+
+                    if (showList) {
+                        $.get('/get_files', function(filesResponse) {
+                            if (filesResponse.file_names.length === 0) {
+                                filesList.append('<p>Your knowledge base is empty. Head over to the Knowledge Base section to get started.</p>');
+                            } else {
+                                filesResponse.file_names.forEach(function(fileName) {
+                                    var isChecked = selectedFiles.includes(fileName);
+                                    filesList.append(`
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" name="files" value="${fileName}" id="edit_file_${fileName}" ${isChecked ? 'checked' : ''}>
+                                            <label class="form-check-label" for="edit_file_${fileName}">${fileName}</label>
+                                        </div>
+                                    `);
+                                });
+                            }
+                        });
+                    }
+
+                    if (showList) {
+                        filesList.show();
+                    } else {
+                        filesList.hide();
+                    }
+                }
+
+                // Toggle handler for retrieval in edit modal
+                $('#editRetrievalToggle').change(function() {
+                    var isToggled = $(this).is(':checked');
+                    loadFilesList('#editFilesList', [], isToggled);
+                });
+
+                // Handle form submission for editing a persona
+                $('#editPersonaForm').submit(function(e) {
+                    e.preventDefault();
+                    var formData = new FormData(this);
+                
+                    // Append new fields to formData
+                    formData.append('new_description', $('#editDescription').val());
+                    $('#editCategory option:selected').each(function() {
+                        formData.append('new_category[]', $(this).val());
+                    });
+                
+                    // Include retrieval toggle status in the form data
+                    formData.append('retrieval_toggle', $('#editRetrievalToggle').is(':checked') ? 'on' : 'off');
+                
+                    // Append selected files if retrieval toggle is on
+                    if ($('#editRetrievalToggle').is(':checked')) {
+                        var selectedFiles = $('#editFilesList input[name="files"]:checked');
+                        selectedFiles.each(function() {
+                            formData.append('selected_files', this.value);
+                        });
+                    }
+
+                    formData.append('web_browsing', $('#editWebBrowsingToggle').is(':checked'));
+                    formData.append('code_interpreter', $('#editCodeInterpreterToggle').is(':checked'));
+                    
+                    var userConfirmed = confirm("Are you sure you want to update this Academic Bot?");
+                    if (!userConfirmed) {
+                        return; // Stop the function if the user cancels the action
+                    }
+                
+                    $('#loadingModalEdit').modal({
+                        backdrop: 'static', // Disable clicking outside to close
+                        keyboard: false // Disable keyboard to close
+                    }).modal('show');
+                
+                    $.ajax({
+                        url: '/edit_persona',
+                        type: 'POST',
+                        data: formData,
+                        contentType: false,
+                        processData: false,
+                        success: function(response) {
+                            if(response.success) {
+                                $('#loadingModalEdit').modal('hide');
+                                alert('Academic Bot updated successfully');
+                                location.reload();
+                            } else {
+                                $('#loadingModalEdit').modal('hide');
+                                alert('Error updating Academic Bot: ' + response.message);
+                            }
+                        }
+                    });
+                });
+                
+
+                // Intercept click event on the close button of the modal
+                $('#editPersonaModal .btn-secondary').click(function(event) {
+                    event.preventDefault(); // Prevent the default action
+
+                    var confirmClose = confirm("Are you sure you want to close? Changes will not be saved.");
+                    if (confirmClose) {
+                        // User confirmed they want to close the modal
+                        $('#editPersonaModal').modal('hide');
+                    } else {
+                        // User does not want to close the modal, do nothing
+                    }
+                });
+
+                // Delete persona
+                $(document).on('click', '.delete-icon', function() {
+                    let title = $(this).data('title');
+                    let persona_id = $(this).data('id');
+                    let card = $(this).closest('.card');
+                    let confirmation = confirm(`Are you sure you want to delete ${title}?`);
+        
+                    if (confirmation) {
+                        $.post("/delete_persona", {
+                            id: persona_id
+                        }, function(data) {
+                            if (data.success) {
+                                card.remove();
+                                window.location.reload();
+                            }
+                        });
+                    }
+                });
+        
+                // Function to show error modal
+                function showErrorModal(errorMessage) {
+                    $("#errorModalMessage").text(errorMessage);
+                    $("#errorModal").modal('show');
+                }
+        
+                // Fetch and display the saved API key when the "Key" button is clicked
+                $("#openKeyModalButton").click(function() {
+                    $.get("/get_saved_key", function(response) {
+                        if(response.success) {
+                            $("#openaiApiKey").val(response.openai_api_key);
+                        } else {
+                            $("#openaiApiKey").val('');
+                        }
+                        $("#openaiKeyModal").modal('show');
+                    });
+                });
+        
+                // Handle saving the OpenAI key
+                $("#saveOpenaiKey").click(function() {
+                    var apiKey = $("#openaiApiKey").val();
+                    if (!apiKey) {
+                        console.log("Please submit an API key error should come."); // <-- Add this line
+                        showError("Please submit an API key.");
+                    } else if (!apiKey.startsWith('sk-')) {
+                        // Display error if API key format is invalid
+                        console.log("Invalid API key. It must start with 'sk-'."); // <-- Add this line
+                        showError("Invalid API key");
+                    } else {
+                        // Save the API key if it is valid
+                        $.post("/update_key", { openai_api_key: apiKey }, function(response) {
+                            if(response.success) {
+                                alert("API key saved successfully");
+                                $("#openaiKeyModal").modal('hide');
+                                window.location.reload();
+                                console.log("API key saved successfully"); // <-- Add this line
+                            } else {
+                                console.error("Failed to save API key: " + response.message);
+                                showErrorModal(response.message);
+                            }
+                        });
+                    }    
+                });
+
+                // Fetch and display the saved SERP API key when the "Key" button is clicked
+                $("#serpKeyModalButton").click(function() {
+                    $.get("/get_saved_serp_key", function(response) {
+                        if(response.success) {
+                            $("#serpApiKey").val(response.serp_api_key);
+                        } else {
+                            $("#serpApiKey").val('');
+                        }
+                        $("#serpKeyModal").modal('show');
+                    });
+                });
+
+                // Handle saving the OpenAI key
+                $("#saveSerpKey").click(function() {
+                    var serpapiKey = $("#serpApiKey").val();
+                    if (!serpapiKey) {
+                        console.log("Please submit SERP API key error should come."); // <-- Add this line
+                        showError("Please submit Google Custom Search API key.");
+                    } else {
+                        // Save the API key if it is valid
+                        $.post("/update_serp_key", { serp_api_key: serpapiKey }, function(response) {
+                            if(response.success) {
+                                alert("Google Custom Search API key saved successfully");
+                                $("#serpKeyModal").modal('hide');
+                                window.location.reload();
+                                console.log("Google Custom Search API key saved successfully"); // <-- Add this line
+                            } else {
+                                console.log("Failed to save Google Custom Search API key: " + response.message);
+                                showErrorModal(response.message);
+                            }
+                        });
+                    }    
+                });
+
+                // Function to display an error message
+                function showError(message) {
+                    console.log("Showing error: ", message); // Debugging line
+                    var errorBox = $("#errorBox");
+                    if (errorBox.length === 0) { // Check if errorBox doesn't exist, create it
+                        errorBox = $('<div id="errorBox" class="alert alert-danger" role="alert"></div>');
+                        $("body").prepend(errorBox);
+                    }
+                    errorBox.text(message).show();
+                }
+            });
+
+            function copyToClipboard(element) {
+                var copyText = document.getElementById(element);
+                copyText.select();
+                copyText.setSelectionRange(0, 99999); // For mobile devices
+                navigator.clipboard.writeText(copyText.value).then(function() {
+                    alert("URL Copied to Clipboard");
+                }, function(err) {
+                    console.error('Could not copy text: ', err);
+                });
+            }
+            
+
+        </script>
+        
+    
+    <!-- OpenAI API Key Modal -->
+    <div class="modal fade" id="openaiKeyModal" tabindex="-1" aria-labelledby="openaiKeyModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="openaiKeyModalLabel">OpenAI API Key</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="text" class="form-control" id="openaiApiKey" placeholder="Enter your OpenAI API key">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" id="saveOpenaiKey">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SERP Key Modal -->
+    <div class="modal fade" id="serpKeyModal" tabindex="-1" aria-labelledby="serpKeyModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="serpKeyModalLabel">Google Custom Search API Key</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="text" class="form-control" id="serpApiKey" placeholder="Enter your Google Custom Search API key">
+                </div>
+                <div class="modal-body">
+                    <p>Get your free Google Custom Search API key from <a href="https://developers.google.com/custom-search/v1/overview">here</a></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" id="saveSerpKey">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Error Modal -->
+    <div class="modal fade" id="errorModal" tabindex="-1" aria-labelledby="errorModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="errorModalLabel">Error</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="errorModalMessage">
+                    <!-- Error message will be set here -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Share Persona Modal -->
+    <div class="modal fade" id="sharePersonaModal" tabindex="-1" aria-labelledby="sharePersonaModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="sharePersonaModalLabel">Share Academic Bot</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Do you want to make this Academic Bot public?</p>
+                    <div class="mb-3 form-check">
+                        <input type="radio" class="form-check-input" id="publicYesWithoutKey" name="publicStatus" value="yes_without_key">
+                        <label class="form-check-label" for="publicYesWithoutKey">Yes (Available on MarketPlace)</label>
+                    </div>                    
+                    <div class="mb-3 form-check">
+                        <input type="radio" class="form-check-input" id="publicYes" name="publicStatus" value="yes">
+                        <label class="form-check-label" for="publicYes">Yes (Share Externally)</label>
+                    </div>
+                    <div class="mb-3 form-check">
+                        <input type="radio" class="form-check-input" id="publicNo" name="publicStatus" value="no" checked>
+                        <label class="form-check-label" for="publicNo">No</label>
+                    </div>
+                    <div class="mb-3">
+                        <label for="publicUrl" class="form-label">Academic Bot Public URL</label>
+                        <input type="text" class="form-control" id="publicUrl" readonly>
+                        <button type="button" class="btn btn-secondary mt-2" onclick="copyToClipboard('publicUrl')">Copy to Clipboard</button>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="sharePersonaButton">Update</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+ 
+    {% include 'footer_2.html' %}
+
+</body>
+</html>

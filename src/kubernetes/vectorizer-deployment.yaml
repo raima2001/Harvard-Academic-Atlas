@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vectorizer-deployment
+  labels:
+    app: vectorizer
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: vectorizer
+  template:
+    metadata:
+      labels:
+        app: vectorizer
+    spec:
+      containers:
+      - name: vectorizer
+        image: gcr.io/ac-215-hw2/vectorizer:latest
+        ports:
+        - containerPort: 8080
+        env:
+        - name: OPENAI_API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: api-secrets
+              key: OPENAI_API_KEY
+        - name: PINECONE_API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: api-secrets
+              key: PINECONE_API_KEY
+        - name: PINECONE_ENVIRONMENT
+          valueFrom:
+            configMapKeyRef:
+              name: api-config
+              key: PINECONE_ENVIRONMENT

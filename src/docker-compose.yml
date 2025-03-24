@@ -1,0 +1,61 @@
+version: '3.8'
+services:
+  data_extraction:
+    build:
+      context: ./datapipeline/data_extraction
+    volumes:
+      - ../data:/app/data
+    command: python data_extraction.py
+
+  cleaning_data:
+    build:
+      context: ./datapipeline/cleaning_data
+    volumes:
+      - ../data:/app/data
+    command: python cleaning_data.py
+    depends_on:
+      - data_extraction
+
+  vectorizer:
+    build:
+      context: ./vectorizer
+    volumes:
+      - ../data:/app/data
+    environment:
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - PINECONE_API_KEY=${PINECONE_API_KEY}
+      - PINECONE_ENVIRONMENT=${PINECONE_ENVIRONMENT}
+    command: python pdf_docx_to_vector.py
+    depends_on:
+      - cleaning_data
+
+  dvc:
+    build:
+      context: ./dvc
+    volumes:
+      - ..:/app
+      - /path/to/dvc_remote_storage:/dvc_remote
+    command: >
+      bash -c "
+      cd /app &&
+      dvc add data/ &&
+      git add data.dvc .gitignore &&
+      git commit -m 'Track data with DVC' &&
+      dvc push
+      "
+    depends_on:
+      - vectorizer
+
+  api_service:
+    build:
+      context: ./api-service
+    ports:
+      - "5000:5000"
+    volumes:
+      - ../data:/app/data
+    environment:
+      - FLASK_ENV=development
+      - DATABASE_URL=sqlite:///instance/site.db
+    command: python main.py
+    depends_on:
+      - dvc

@@ -1,0 +1,49 @@
+---
+- name: Deploy Kubernetes Cluster on GKE
+  hosts: all
+  become: yes
+
+  tasks:
+    - name: Install required packages
+      apt:
+        name: 
+          - curl
+          - apt-transport-https
+          - gnupg
+          - software-properties-common
+        state: present
+
+    - name: Add Kubernetes apt repository
+      shell: |
+        curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -
+        echo "deb https://apt.kubernetes.io/ kubernetes-xenial main" | tee /etc/apt/sources.list.d/kubernetes.list
+      args:
+        creates: /etc/apt/sources.list.d/kubernetes.list
+
+    - name: Install Kubernetes and Docker
+      apt:
+        name:
+          - docker.io
+          - kubelet
+          - kubeadm
+          - kubectl
+        state: latest
+
+    - name: Initialize Kubernetes cluster on the control plane
+      command: kubeadm init --pod-network-cidr=10.121.128.0/17
+      when: inventory_hostname in groups['masters']
+
+    - name: Configure kubectl for the control plane
+      command: >
+        mkdir -p $HOME/.kube &&
+        cp /etc/kubernetes/admin.conf $HOME/.kube/config &&
+        chown $(id -u):$(id -g) $HOME/.kube/config
+      when: inventory_hostname in groups['masters']
+
+    - name: Install Flannel network plugin
+      shell: kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
+      when: inventory_hostname in groups['masters']
+
+    - name: Join worker nodes to the cluster
+      shell: kubeadm join 34.55.37.64:6443 --token <your-token> --discovery-token-ca-cert-hash <your-hash>
+      when: inventory_hostname in groups['workers']

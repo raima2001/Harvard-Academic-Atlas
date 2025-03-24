@@ -1,0 +1,45 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: application-ingress
+  annotations:
+    kubernetes.io/ingress.class: "gce"
+    ingress.kubernetes.io/ssl-redirect: "true"
+spec:
+  rules:
+  - host: frontend.ac-215-hw2.example.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: frontend
+            port:
+              number: 80
+  - host: api.ac-215-hw2.live.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: api-service
+            port:
+              number: 5000
+  - host: vectorizer.ac-215-hw2.live.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: vectorizer
+            port:
+              number: 8080
+  tls:
+  - secretName: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUMvVENDQW14Z0F3SUJBZ0lRRllFbnFFZ2Nwd1JQRFZST0NHTElOREFLQmdncWhrak9QUVFEQWpBc01Sb3cKRUNBUUF3UUtCR0VsaUJCRkFCQmdOVkhROENBUUFEZ2dNUUJpQjRPQmdRQ09NUUJzT0NuQVFOQTFRRFFKQUJJQUoKTFFLS1RDQkFRRkJGZzRjTUEwR0ExVWREZ1FXQkJSQ0FFREI3dmk3YzNaK1RYOStmUE43Y3hoRXBPdG9CeDN6CllNSUhEb0ZEQmdrcWhraU9QUURJQmdnckJnRUZCUWNEQTFJQkFnSURVVFlHQUJ3VUFzQ3Q2ek1RRUJTcHdRRwpDUktSQU1CV1FNeGdBWHVVUnhxMG00aWpkYW5zZGhlSTljU2tnOENEUExIUlBFSUl2ODZoL0x0YUVmOFduS3Q4CkZzVzlJQ2dkcHh4RzB3aEhIQWtydkJjVThTbDVBcnArSDdaQktDQ3Q4SHROU1JaNndDRUNBU1NSQVBRc2pCQUoKQ1AxR0FJTVBPUE9EdEZNUmdBTUJnb2lFVHc1TTlZR1hoNFdWZE9HSTlzU0xhbkFOelA0dm9RTk9ESkNDU0ZrSgpvMk8xOXN3YXlqaXpyM0hCcEhBNXVCQUZLdmE1U1pBb0ZkQ2twOUltcEpDQVFOa1FYTjgrTkFnSTVhU1Fvc1VECnB1clBtYkJhTlhwb3MzRmEzdWJvTGQ3c1hQK0VPR0ltcVh2RFBSZnhueXhyZThLZHR2WUhWZ
+    hosts:
+    - frontend.ac-215-hw2.example.com
+    - api.ac-215-hw2.example.com
+    - vectorizer.ac-215-hw2.example.com

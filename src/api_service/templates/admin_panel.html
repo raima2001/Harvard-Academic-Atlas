@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Panel: Academic Atlas</title>
+    <link rel="icon" href="https://raw.githubusercontent.com/upskillr-ai/marketplace/0b33dc463400620e861ad1023edc25a6097ca9fb/Images/harvard_atlas.png" type="image/png">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <!-- Style content as in previous HTML -->
+    <!-- Include custom styles here -->
+    <style>
+        :root {
+            --upskillr-blue: #004AAD;
+        }
+        .navbar-custom {
+            background-color: var(--upskillr-blue);
+        }
+        .navbar-brand img {
+            height: 30px;
+        }
+        .table-container {
+            margin-top: 20px;
+            overflow-x: auto;
+        }
+        .table {
+            width: 100%;
+            margin-bottom: 1rem;
+            color: #212529;
+        }
+        th {
+            background-color: var(--upskillr-blue);
+            color: white;
+        }
+        .nav-link {
+            cursor: pointer;
+        }
+        .logout-btn {
+            color: white;
+        }
+        :root {
+            --upskillr-blue: #004AAD;
+        }
+        .navbar-custom {
+            background-color: var(--upskillr-blue);
+        }
+        .navbar-brand img {
+            height: 30px;
+        }
+        .table-container {
+            margin-top: 20px;
+            overflow-x: auto;
+        }
+        .table {
+            width: 100%;
+            margin-bottom: 1rem;
+            color: #212529;
+        }
+        th {
+            background-color: var(--upskillr-blue);
+            color: white; /* Ensure this is a contrasting color */
+        }
+        .nav-link {
+            cursor: pointer;
+        }
+        .logout-btn {
+            color: white;
+        }
+        /* Additional styles for better visibility */
+        .table thead th {
+            color: #fff; /* White text color for headers */
+            background-color: var(--upskillr-blue); /* Blue background for headers */
+        }
+        .table tbody tr:hover {
+            background-color: #f0f0f0; /* Light background on row hover for better readability */
+        }
+        .table {
+            border-collapse: collapse; /* Ensures that borders collapse into a single border */
+        }
+
+        .table thead th {
+            background-color: var(--upskillr-blue);
+            color: #fff;
+            text-align: center; /* Centers header text */
+        }
+        .table tbody td {
+            vertical-align: middle; /* Aligns content of cells to the middle */
+        }
+        .table tbody tr:nth-child(even) {
+            background-color: #f8f9fa; /* Adds a slight background color to even rows */
+        }
+        .table-container {
+            margin-top: 20px;
+            overflow-x: auto; /* Enables horizontal scrolling */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .table {
+            width: auto; /* Allows the table to expand as needed */
+            min-width: 100%; /* Ensures the table is at least as wide as its container */
+            border-collapse: collapse;
+        }
+
+        .table thead th {
+            background-color: var(--upskillr-blue);
+            color: #fff;
+            text-align: center;
+        }
+        .table tbody td {
+            vertical-align: middle;
+        }    
+        .upskillr-logo {
+            height: 50px; /* Adjust the logo size */
+            width: auto;
+            transition: transform 0.3s ease; /* Smooth zoom transition */
+        }
+        .upskillr-logo:hover {
+            transform: scale(1.1); /* Zoom effect on hover */
+        }    
+        .table th {
+            font-size: 16px; /* Adjust header font size */
+        }
+        .table {
+            font-size: 14px; /* Adjust overall table font size */
+        }
+        .table {
+            width: auto;
+            min-width: 100%;
+            border-collapse: collapse;
+            font-size: 14px; /* Sets font size for the whole table */
+        }
+    
+        .table thead th {
+            background-color: var(--upskillr-blue);
+            color: #fff;
+            text-align: center;
+            font-size: 16px; /* Slightly larger font size for headers */
+        }
+        .email-domain-container {
+            background: #fff;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+        }
+        .email-domain-container h2 {
+            font-size: 1.5rem;
+            color: var(--upskillr-blue);
+            margin-bottom: 10px;
+        }
+        .email-domain-container .input-group {
+            max-width: 500px;
+        }            
+        /* Custom Button Styles */
+        .btn-success {
+            background-color: #28a745; /* Dark green for 'Given' */
+            color: white;
+            border: none;
+        }
+        
+        .btn-danger {
+            background-color: #dc3545; /* Dark red for 'Not Given' */
+            color: white;
+            border: none;
+        }
+        
+        .btn {
+            transition: all 0.3s ease; /* Smooth transition for hover effect */
+        }
+        
+        .btn:hover {
+            opacity: 0.8; /* Slight opacity change on hover */
+        }     
+        .table th, .table td {
+            text-align: center;
+            vertical-align: middle;
+            padding: .75rem;
+            border: 1px solid #dee2e6;
+            min-width: 120px; /* Set a minimum width for cells */
+            max-width: 200px; /* Set a maximum width for cells */
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            height: 60px; /* Set a fixed height for cells */
+        }
+        .table td.expandable:hover {
+            overflow: visible;
+            white-space: normal;
+            height: auto; /* Allow cell to expand */
+            cursor: pointer;
+        }          
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-custom">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">
+                <img src="{{ url_for('static', filename='images/admin_logo.png') }}" alt="Upskillr Logo" class="upskillr-logo" style="max-height: 50px;">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link logout-btn" href="/admin/login">Logout</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-3">
+        <h1 class="mb-4">Admin Dashboard</h1>
+        <div class="email-domain-container">
+            <h2>Authorized Email Domain</h2>
+            <div class="input-group">
+                <input type="text" id="emailDomainInput" class="form-control" placeholder="Enter email domain. Example: g.harvard.edu">
+                <button id="updateEmailDomain" class="btn btn-primary">Update</button>
+            </div>
+        </div>
+
+        <form id="addCredentials" class="mb-4" enctype="multipart/form-data">
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label for="openAIKey" class="form-label">Open AI Key</label>
+                    <input type="text" class="form-control" id="openAIKey" name="openAIKey" required placeholder="Enter your OpenAI key here">
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="googleKey" class="form-label">Google Search API Key</label>
+                    <input type="text" class="form-control" id="googleKey" name="googleKey" required placeholder="Enter your Google Search key here">
+                </div>
+            </div>
+            <button id="addKeys" type="submit" class="btn btn-primary">Add Keys</button>
+        </form>
+        <br>
+        <form id="autoAccessAdminKeysForm" class="mb-4">
+            <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" id="autoAccessAdminKeys">
+                <label class="form-check-label" for="autoAccessAdminKeys">Auto Access to Admin Keys</label>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+        <br>
+        <form id="addLogo" class="mb-4" enctype="multipart/form-data">
+            <div class="col-md-6 mb-3">
+                <label for="image" class="form-label">Logo Image</label>
+                <input type="file" class="form-control" id="image" name="image" required accept=".png">
+            </div>
+            <button id="addLogoButton" type="submit" class="btn btn-primary">Update Logo</button>
+        </form>
+        <br>
+        <ul class="nav nav-tabs" id="adminPanelTabs" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="users-tab" data-bs-toggle="tab" data-bs-target="#users" type="button" role="tab" aria-controls="users" aria-selected="true">Users</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="personas-tab" data-bs-toggle="tab" data-bs-target="#personas" type="button" role="tab" aria-controls="personas" aria-selected="false">Personas</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="persona-usages-tab" data-bs-toggle="tab" data-bs-target="#persona_usages" type="button" role="tab" aria-controls="persona_usages" aria-selected="false">Persona Usages</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="courses-tab" data-bs-toggle="tab" data-bs-target="#courses" type="button" role="tab" aria-controls="courses" aria-selected="false">Curriculum Builder</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="knowledge-files-tab" data-bs-toggle="tab" data-bs-target="#knowledge_files" type="button" role="tab" aria-controls="knowledge_files" aria-selected="false">Knowledge Base</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="evaluations-tab" data-bs-toggle="tab" data-bs-target="#evaluations" type="button" role="tab" aria-controls="evaluations" aria-selected="false">Automated Document Processing</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="news-items-tab" data-bs-toggle="tab" data-bs-target="#news-items" type="button" role="tab" aria-controls="news-items" aria-selected="false">Personal News Analyst</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="alumni-usage-tab" data-bs-toggle="tab" data-bs-target="#alumni-usage" type="button" role="tab" aria-controls="alumni-usage" aria-selected="false">Alumni and Business Network Usage</button>
+            </li>
+        </ul>
+
+        <div class="tab-content" id="adminPanelContent">
+            <div class="tab-pane fade show active" id="users" role="tabpanel" aria-labelledby="users-tab">
+                <div class="table-container"><!-- Users content will be loaded here --></div>
+            </div>
+            <div class="tab-pane fade" id="personas" role="tabpanel" aria-labelledby="personas-tab">
+                <div class="table-container"><!-- Personas content will be loaded here --></div>
+            </div>
+            <div class="tab-pane fade" id="persona_usages" role="tabpanel" aria-labelledby="persona-usages-tab">
+                <div class="table-container"><!-- Persona Usages content will be loaded here --></div>
+            </div>
+            <div class="tab-pane fade" id="courses" role="tabpanel" aria-labelledby="courses-tab">
+                <div class="table-container"><!-- Courses content will be loaded here --></div>
+            </div>
+            <div class="tab-pane fade" id="knowledge_files" role="tabpanel" aria-labelledby="knowledge-files-tab">
+                <div class="table-container"><!-- Knowledge Files content will be loaded here --></div>
+            </div>
+            <div class="tab-pane fade" id="evaluations" role="tabpanel" aria-labelledby="evaluations-tab">
+                <div class="table-container"><!-- Evaluations content will be loaded here --></div>
+            </div>
+            <div class="tab-pane fade" id="news-items" role="tabpanel" aria-labelledby="news-items-tab">
+                <div class="table-container"><!-- News Items content will be loaded here --></div>
+            </div>
+            <div class="tab-pane fade" id="alumni-usage" role="tabpanel" aria-labelledby="alumni-usage-tab">
+                <div class="table-container"><!-- News Items content will be loaded here --></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+
+        function copyCellContentToClipboard(element) {
+            var text = element.innerText;
+            navigator.clipboard.writeText(text).then(function() {
+                alert('Content copied to clipboard');
+            }).catch(function(error) {
+                alert('Error copying text: ', error);
+            });
+        }
+
+        function fetchAutoAccessStatus() {
+            $.ajax({
+                url: '/admin/get_auto_access_admin_keys_status',
+                type: 'GET',
+                success: function(response) {
+                    if(response.success) {
+                        $('#autoAccessAdminKeys').prop('checked', response.auto_admin_keys_access);
+                    }
+                },
+                error: function(error) {
+                    console.error('Error fetching auto access status:', error);
+                }
+            });
+        }
+        
+
+        function fetchEmailDomain() {
+            $.ajax({
+                url: '/admin/global_variable_email_domain',
+                type: 'GET',
+                success: function(response) {
+                    if(response.email_domain) {
+                        $('#emailDomainInput').val(response.email_domain);
+                    }
+                },
+                error: function(error) {
+                    console.error('Error fetching email domain:', error);
+                }
+            });
+        }
+
+        function fetchKeys() {
+            $.ajax({
+                url: '/admin/global_variable_api_keys',
+                type: 'GET',
+                success: function(response) {
+                    if(response.success) {
+                        // Check if the keys are available in the response
+                        if(response.openai_api_key) {
+                            $('#openAIKey').val(response.openai_api_key);
+                        }
+                        if(response.serp_api_key) {
+                            $('#googleKey').val(response.serp_api_key);
+                        }
+                    } else {
+                        // Handle the case where the global variable is not found
+                        console.error('Error: ' + response.message);
+                        alert('Error: ' + response.message); // Optionally, show an alert to the user
+                    }
+                },
+                error: function() {
+                    console.log('Error fetching API keys:');
+                    alert('Error fetching API keys. Please try again later:'); // Optionally, show an alert to the user
+                }
+            });
+        }   
+        
+        function sendUserData(userId) {
+            var confirmUpdate = confirm('Are you sure you want to allot/de-allot User ID ' + userId + ' Admin OpenAI and Google Search API Keys?');
+            if(confirmUpdate) {
+                $.ajax({
+                    url: '/admin/send-user-data',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({ user_id: userId }),
+                    success: function(response) {
+                        alert('Keys alloted/de-alloted successfully.');
+                        window.location.reload();
+                    },
+                    error: function(error) {
+                        console.error('Error sending user data:', error);
+                    }
+                });
+            }
+        }
+        
+        $('#updateEmailDomain').click(function() {
+            var newEmailDomain = $('#emailDomainInput').val();
+            const adminKey1 = "{{ admin_key_1 }}";
+            const adminKey2 = "{{ admin_key_2 }}";
+            const salt = "{{ salt }}";
+            var confirmUpdate = confirm('Are you sure you want to update the email domain to "' + newEmailDomain + '"?');
+            if(confirmUpdate) {
+                    $.ajax({
+                        url: '/admin/global_variable_email_domain',
+                        type: 'POST',
+                        contentType: 'application/json',
+                        data: JSON.stringify({ email_domain: newEmailDomain, admin_key_1: adminKey1, admin_key_2: adminKey2, salt: salt }),
+                        success: function(response) {
+                            if(response.success) {
+                                alert("Email domain updated successfully.");
+                                fetchEmailDomain();  // Refresh the displayed email domain
+                                window.location.reload();
+                            } else {
+                                alert("Failed to update email domain.");
+                            }
+                        },
+                        error: function(error) {
+                            console.log('Error updating email domain:', error);
+                        }
+                    });
+                }
+        });
+        
+        $('#addCredentials').submit(function(event) {
+            event.preventDefault(); // Prevent the default form submission behavior
+        
+            var openAIKey = $('#openAIKey').val();
+            var googleKey = $('#googleKey').val();
+        
+            const adminKey1 = "{{ admin_key_1 }}";
+            const adminKey2 = "{{ admin_key_2 }}";
+            const salt = "{{ salt }}";
+        
+            var confirmUpdate = confirm('Are you sure you want to update the API keys?');
+            if (confirmUpdate) {
+                if (openAIKey && googleKey) {
+                    // If both keys are provided, send them to the server
+                    $.ajax({
+                        url: '/admin/global_variable_api_keys',
+                        type: 'POST',
+                        contentType: 'application/json',
+                        data: JSON.stringify({
+                            open_ai_key: openAIKey,
+                            google_search_api_key: googleKey,
+                            admin_key_1: adminKey1, 
+                            admin_key_2: adminKey2, 
+                            salt: salt
+                        }),
+                        success: function(response) {
+                            if (response.success) {
+                                alert("API keys added successfully.");
+                                fetchKeys();
+                                window.location.reload();
+                            } else {
+                                alert("Failed to add API keys. " + response.message);
+                            }
+                        },
+                        error: function(error) {
+                            console.log('Error adding API keys:', error);
+                            alert("An error occurred while adding API keys. Please check the keys and try again.");
+                        }
+                    });
+                } else {
+                    alert('Please enter both OpenAI and Google API keys.');
+                }
+            }
+        }); 
+        
+        $('#autoAccessAdminKeysForm').submit(function(event) {
+            event.preventDefault();
+            var isAutoAccessEnabled = $('#autoAccessAdminKeys').is(':checked');
+            $.ajax({
+                url: '/admin/global_variable_auto_access_admin_keys',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({ auto_admin_keys_access: isAutoAccessEnabled }),
+                success: function(response) {
+                    if(response.success) {
+                        alert('Auto Access to Admin Keys has been updated.');
+                        // Optionally, reload the page to reflect the new state
+                        window.location.reload();
+                    } else {
+                        alert('Failed to update the Auto Access to Admin Keys. ' + response.message);
+                        window.location.reload();
+                    }
+                },
+                error: function(error) {
+                    console.error('Error updating Auto Access to Admin Keys:', error);
+                    window.location.reload();
+                }
+            });
+        });
+
+        $('#addLogo').submit(function(event) {
+            event.preventDefault(); // Prevent the default form submission behavior
+            var formData = new FormData(this);
+            var confirmUpdate = confirm('Are you sure you want to update the logo?');
+            if (confirmUpdate) {
+                
+                $.ajax({
+                    url: '/admin/global_variable_logo_image',
+                    type: 'POST',
+                    data: formData,
+                    contentType: false, // This is important, don't specify a contentType for FormData
+                    processData: false, // This is important, jQuery must not process FormData
+                    success: function(response) {
+                        if (response.success) {
+                            alert("Logo updated successfully.");
+                            window.location.reload();
+                        } else {
+                            alert("Failed to update the logo. " + response.message);
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error updating logo:', error);
+                        alert("An error occurred while updating the logo: " + error);
+                    }
+                });
+            }
+        });
+        
+        $(document).ready(function() {
+            const adminKey1 = "{{ admin_key_1 }}";
+            const adminKey2 = "{{ admin_key_2 }}";
+            const salt = "{{ salt }}";
+
+            function formatTitle(str) {
+                return str
+                    .replace(/_/g, ' ')  // Replace underscores with spaces
+                    .replace(/(?:^|\s)\S/g, a => a.toUpperCase());  // Capitalize first letter of each word
+            }
+
+            // Function to render data as a table with ordered columns
+            function renderTable(data, targetDiv, orderedColumns) {
+                if (Array.isArray(data) && data.length > 0) {
+                    let table = $('<table class="table table-striped"><thead><tr></tr></thead><tbody></tbody></table>');
+                    // Ordered headers
+                    orderedColumns.forEach(column => {
+                        if (data[0].hasOwnProperty(column)) {
+                            table.find('thead tr').append(`<th>${formatTitle(column)}</th>`);
+                        }
+                    });
+                    // Other headers
+                    Object.keys(data[0]).forEach(key => {
+                        if (!orderedColumns.includes(key)) {
+                            table.find('thead tr').append(`<th>${formatTitle(key)}</th>`);
+                        }
+                    });
+                    // Rows
+                    data.forEach(item => {
+                        let row = '<tr>';
+                        orderedColumns.forEach(column => {
+                            if (column === 'admin_keys_access') {
+                                let buttonClass = item.admin_keys_access === 'Given' ? 'btn-success' : 'btn-danger';
+                                row += `<td><button class="btn ${buttonClass}" onclick="sendUserData(${item.id})">${item.admin_keys_access}</button></td>`;
+                            } else if (item.hasOwnProperty(column)) {
+                                row += `<td class="expandable" onclick="copyCellContentToClipboard(this)">${item[column]}</td>`;
+                            }
+                        });
+                        row += '</tr>';
+                        table.find('tbody').append(row);
+                    });
+                    $(targetDiv).html(table);
+                } else {
+                    $(targetDiv).html('No data available');
+                }
+            }
+
+            // Function to fetch and display data
+            function fetchData() {
+                $.ajax({
+                    url: '/admin_access/api/',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({
+                        admin_key_1: adminKey1,
+                        admin_key_2: adminKey2,
+                        salt: salt
+                    }),
+                    success: function(response) {
+                        if(response.users) {
+                            renderTable(response.users, '#users .table-container', ['id', 'admin_keys_access', 'username', 'login_code', 'last_login', 'gpt-4_input_tokens', 'gpt-4_output_tokens', 'gpt-3.5-turbo_input_tokens', 'gpt-3.5-turbo_output_tokens']);
+                        }
+                        if(response.courses) {
+                            renderTable(response.courses, '#courses .table-container', ['timestamp', 'user_id', 'username', 'topic_name', 'link', 'model_name', 'input_tokens', 'output_tokens']);
+                        }
+                        if(response.personas) {
+                            renderTable(response.personas, '#personas .table-container', [ 'user_id', 'username', 'title', 'prompt', 'description', 'categories', 'image_url', 'file_ids', 'web_browsing', 'code_interpreter', 'assistant_id', 'public_url', 'is_public', 'is_public_without_key']);
+                        }
+                        if(response.persona_usages) {
+                            renderTable(response.persona_usages, '#persona_usages .table-container', ['timestamp', 'user_id', 'username', 'title', 'prompt', 'model_name', 'retrieval_mode', 'web_browsing_mode','code_interpreter_mode', 'private_usage', 'public_usage', 'input_tokens', 'output_tokens']);
+                        }
+                        if(response.knowledge_files) {
+                            renderTable(response.knowledge_files, '#knowledge_files .table-container', ['timestamp', 'user_id', 'username', 'filename', 'file_id', 'file_size_in_gb']);
+                        }
+                        if(response.evaluations) {
+                            renderTable(response.evaluations, '#evaluations .table-container', ['timestamp', 'user_id', 'username', 'evaluation_name', 'selected_model', 'system_prompt', 'question_paper', 'answer_papers', 'input_tokens', 'output_tokens']);
+                        }
+                        if(response.news_items) {
+                            renderTable(response.news_items, '#news-items .table-container', ['last_update', 'alert name', 'alert url', 'prompt', 'model_name', 'summary_option', 'input_tokens', 'output_tokens']);
+                        }
+                        if(response.alumni_usage_data) {
+                            renderTable(response.alumni_usage_data, '#alumni-usage .table-container', ['last_update', 'alert name', 'alert url', 'prompt','model_name','summary_option','input_tokens', 'output_tokens','frequency','scheduler_id','time','timezone','user_id','username']);                        
+                        }
+                    },
+                    error: function(error) {
+                        console.error('Error fetching usage history data:', error);
+                }
+            });
+        }
+        fetchEmailDomain();
+        fetchKeys();
+        fetchAutoAccessStatus();
+        fetchData();
+    });
+</script>
+{% include 'footer_2.html' %}
+
+</body>
+</html>

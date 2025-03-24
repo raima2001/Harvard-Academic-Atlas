@@ -1,0 +1,39 @@
+name: CI with Coverage
+
+on:
+  push:
+    branches:
+      - milestone4
+  pull_request:
+    branches:
+      - milestone4
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: 3.12
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt  # Ensure requirements.txt contains all dependencies, including pytest and pytest-cov
+
+    - name: Run Tests with Coverage
+      env:  # Set the PYTHONPATH environment variable
+        PYTHONPATH: src:src/api_service:workflow
+      run: |
+        pytest tests --cov=src --cov=workflow --cov-report=term-missing --cov-report=html
+
+    - name: Upload Coverage Report
+      uses: actions/upload-artifact@v3
+      with:
+        name: coverage-report
+        path: htmlcov/

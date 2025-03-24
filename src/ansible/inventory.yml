@@ -1,0 +1,17 @@
+all:
+  hosts:
+    gke-control-plane:
+      ansible_host: 34.55.37.64  # Public control plane IP of the hls cluster
+      ansible_user: ubuntu
+      ansible_ssh_private_key_file: ~/.ssh/id_rsa
+    gke-node-pool:
+      ansible_host: 10.128.0.4  # Private endpoint of a node of the hls cluster
+      ansible_user: ubuntu
+      ansible_ssh_private_key_file: ~/.ssh/id_rsa
+  children:
+    masters:
+      hosts:
+        gke-control-plane
+    workers:
+      hosts:
+        gke-node-pool

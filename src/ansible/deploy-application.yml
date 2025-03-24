@@ -1,0 +1,35 @@
+---
+- name: Deploy Application to GKE
+  hosts: masters
+  become: yes
+
+  tasks:
+    - name: Copy Kubernetes configuration files to the control plane
+      copy:
+        src: ../kubernetes/
+        dest: /home/ubuntu/kubernetes/
+        remote_src: no
+
+    - name: Apply Kubernetes secrets
+      command: kubectl apply -f /home/ubuntu/kubernetes/secrets.yaml
+
+    - name: Apply Kubernetes ConfigMap
+      command: kubectl apply -f /home/ubuntu/kubernetes/configmap.yaml
+
+    - name: Deploy API service
+      command: >
+        kubectl apply -f /home/ubuntu/kubernetes/api-deployment.yaml &&
+        kubectl apply -f /home/ubuntu/kubernetes/api-service.yaml
+
+    - name: Deploy frontend service
+      command: >
+        kubectl apply -f /home/ubuntu/kubernetes/frontend-deployment.yaml &&
+        kubectl apply -f /home/ubuntu/kubernetes/frontend-service.yaml
+
+    - name: Deploy vectorizer service
+      command: >
+        kubectl apply -f /home/ubuntu/kubernetes/vectorizer-deployment.yaml &&
+        kubectl apply -f /home/ubuntu/kubernetes/vectorizer-service.yaml
+
+    - name: Apply ingress configuration
+      command: kubectl apply -f /home/ubuntu/kubernetes/ingress.yaml

@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Usage History: Academic Atlas</title>
+    <link rel="icon" href="https://raw.githubusercontent.com/upskillr-ai/marketplace/0b33dc463400620e861ad1023edc25a6097ca9fb/Images/harvard_atlas.png" type="image/png">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <!-- Style content as in previous HTML -->
+    <!-- Include custom styles here -->
+    <style>
+        :root {
+            --upskillr-blue: #004AAD;
+        }
+        .navbar-custom {
+            background-color: var(--upskillr-blue);
+        }
+        .navbar-brand img {
+            height: 30px;
+        }
+        .table-container {
+            margin-top: 20px;
+            overflow-x: auto;
+        }
+        .table {
+            width: 100%;
+            margin-bottom: 1rem;
+            color: #212529;
+        }
+        th {
+            background-color: var(--upskillr-blue);
+            color: white;
+        }
+        .nav-link {
+            cursor: pointer;
+        }
+        .logout-btn {
+            color: white;
+        }
+        .upskillr-logo {
+            height: 50px; /* Adjust the logo size */
+            width: auto;
+            margin-right: 10px; /* Space between logo and text */
+            transition: transform 0.3s ease; /* Smooth zoom transition */
+        }
+
+        .upskillr-logo:hover {
+            transform: scale(1.1); /* Zoom effect on hover */
+        }
+        :root {
+            --upskillr-blue: #004AAD;
+        }
+        .navbar-custom {
+            background-color: var(--upskillr-blue);
+        }
+        .navbar-brand img {
+            height: 30px;
+        }
+        .table-container {
+            margin-top: 20px;
+            overflow-x: auto;
+        }
+        .table {
+            width: 100%;
+            margin-bottom: 1rem;
+            color: #212529;
+        }
+        th {
+            background-color: var(--upskillr-blue);
+            color: white; /* Ensure this is a contrasting color */
+        }
+        .nav-link {
+            cursor: pointer;
+        }
+        .logout-btn {
+            color: white;
+        }
+        /* Additional styles for better visibility */
+        .table thead th {
+            color: #fff; /* White text color for headers */
+            background-color: var(--upskillr-blue); /* Blue background for headers */
+        }
+        .table tbody tr:hover {
+            background-color: #f0f0f0; /* Light background on row hover for better readability */
+        }
+        .table {
+            border-collapse: collapse; /* Ensures that borders collapse into a single border */
+        }
+        .table th, .table td {
+            border: 1px solid #dee2e6; /* Adds border to table cells */
+            padding: 8px; /* Adds padding inside table cells */
+            text-align: left; /* Aligns text to the left */
+        }
+        .table thead th {
+            background-color: var(--upskillr-blue);
+            color: #fff;
+            text-align: center; /* Centers header text */
+        }
+        .table tbody td {
+            vertical-align: middle; /* Aligns content of cells to the middle */
+        }
+        .table tbody tr:nth-child(even) {
+            background-color: #f8f9fa; /* Adds a slight background color to even rows */
+        }
+        .table-container {
+            margin-top: 20px;
+            overflow-x: auto; /* Enables horizontal scrolling */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .table {
+            width: auto; /* Allows the table to expand as needed */
+            min-width: 100%; /* Ensures the table is at least as wide as its container */
+            border-collapse: collapse;
+        }
+        .table th, .table td {
+            border: 1px solid #dee2e6;
+            padding: 8px;
+            white-space: nowrap; /* Prevents text wrapping */
+            min-width: 150px; /* Set a minimum width for cells, adjust as needed */
+        }
+        .table thead th {
+            background-color: var(--upskillr-blue);
+            color: #fff;
+            text-align: center;
+        }
+  
+        .upskillr-logo {
+            height: 50px; /* Adjust the logo size */
+            width: auto;
+            transition: transform 0.3s ease; /* Smooth zoom transition */
+        }
+        .upskillr-logo:hover {
+            transform: scale(1.1); /* Zoom effect on hover */
+        }    
+        .table th {
+            font-size: 16px; /* Adjust header font size */
+        }
+        .table {
+            font-size: 14px; /* Adjust overall table font size */
+        }
+        .table {
+            width: auto;
+            min-width: 100%;
+            border-collapse: collapse;
+            font-size: 14px; /* Sets font size for the whole table */
+        }
+    
+        .table th, .table td {
+            text-align: center;
+            vertical-align: middle;
+            padding: .75rem;
+            border: 1px solid #dee2e6;
+            min-width: 120px; /* Set a minimum width for cells */
+            max-width: 200px; /* Set a maximum width for cells */
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            height: 60px; /* Set a fixed height for cells */
+        }
+    
+        .table thead th {
+            background-color: var(--upskillr-blue);
+            color: #fff;
+            text-align: center;
+            font-size: 16px; /* Slightly larger font size for headers */
+        }
+        .table td.expandable:hover {
+            overflow: visible;
+            white-space: normal;
+            height: auto; /* Allow cell to expand */
+            cursor: pointer;
+        }                   
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <!-- Upskillr Logo -->
+            <a class="navbar-brand" href="#">
+                <img src="{{ url_for('static', filename='images/admin_logo.png') }}" alt="Upskillr Logo" class="upskillr-logo" style="max-height: 50px;">
+            </a>
+            <div class="d-flex">
+                <a href="{{ url_for('index') }}" class="btn btn-primary m-2">Back</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-3">
+        <h1 class="mb-4">Usage History</h1>
+        <ul class="nav nav-tabs" id="adminPanelTabs" role="tablist">
+            <li class="nav-item d-none" role="presentation">
+                <button class="nav-link active" id="courses-tab" data-bs-toggle="tab" data-bs-target="#courses" type="button" role="tab" aria-controls="courses" aria-selected="true">Curriculum Builder</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="persona-usages-tab" data-bs-toggle="tab" data-bs-target="#persona-usages" type="button" role="tab" aria-controls="persona-usages" aria-selected="false">Academic Bots</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="knowledge-files-tab" data-bs-toggle="tab" data-bs-target="#knowledge-files" type="button" role="tab" aria-controls="knowledge-files" aria-selected="false">Resource Vault</button>
+            </li>
+            <li class="nav-item d-none" role="presentation">
+                <button class="nav-link" id="evaluations-tab" data-bs-toggle="tab" data-bs-target="#evaluations" type="button" role="tab" aria-controls="evaluations" aria-selected="false">Automated Document Processing</button>
+            </li>
+            <li class="nav-item d-none" role="presentation">
+                <button class="nav-link" id="news-items-tab" data-bs-toggle="tab" data-bs-target="#news-items" type="button" role="tab" aria-controls="news-items" aria-selected="false">Personal News Analyst</button>
+            </li>
+            <li class="nav-item d-none" role="presentation">
+                <button class="nav-link" id="alumni-usage-tab" data-bs-toggle="tab" data-bs-target="#alumni-usage" type="button" role="tab" aria-controls="alumni-usage" aria-selected="false">Alumni and Business Network Usage</button>
+            </li>
+        </ul>
+        <div class="tab-content" id="adminPanelContent">
+            <div class="tab-pane fade show active" id="courses" role="tabpanel" aria-labelledby="courses-tab">
+                <div class="table-container"><!-- Courses content will be loaded here --></div>
+            </div>
+            <div class="tab-pane fade" id="persona-usages" role="tabpanel" aria-labelledby="persona-usages-tab">
+                <div class="table-container"><!-- Persona Usages content will be loaded here --></div>
+            </div>
+            <div class="tab-pane fade" id="knowledge-files" role="tabpanel" aria-labelledby="knowledge-files-tab">
+                <div class="table-container"><!-- Knowledge Files content will be loaded here --></div>
+            </div>
+            <div class="tab-pane fade" id="evaluations" role="tabpanel" aria-labelledby="evaluations-tab">
+                <div class="table-container"><!-- Evaluations content will be loaded here --></div>
+            </div>
+            <div class="tab-pane fade" id="news-items" role="tabpanel" aria-labelledby="news-items-tab">
+                <div class="table-container"><!-- News Items content will be loaded here --></div>
+            </div>
+            <div class="tab-pane fade" id="alumni-usage" role="tabpanel" aria-labelledby="alumni-usage-tab">
+                <div class="table-container"><!-- News Items content will be loaded here --></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+
+        function copyCellContentToClipboard(element) {
+            var text = element.innerText;
+            navigator.clipboard.writeText(text).then(function() {
+                alert('Content copied to clipboard');
+            }).catch(function(error) {
+                alert('Error copying text: ', error);
+            });
+        }
+
+        $(document).ready(function() {
+            // Function to format field names into human-readable titles
+            // Function to format field names into human-readable titles
+            function formatTitle(str) {
+                return str
+                    .replace(/_/g, ' ')  // Replace underscores with spaces
+                    .replace(/(?:^|\s)\S/g, a => a.toUpperCase());  // Capitalize first letter of each word
+            }
+
+            // Function to render data as a table with ordered columns
+            function renderTable(data, targetDiv, orderedColumns) {
+                if (Array.isArray(data) && data.length > 0) {
+                    let table = $('<table class="table table-striped"><thead><tr></tr></thead><tbody></tbody></table>');
+                    // Ordered headers
+                    orderedColumns.forEach(column => {
+                        if (data[0].hasOwnProperty(column)) {
+                            table.find('thead tr').append(`<th>${formatTitle(column)}</th>`);
+                        }
+                    });
+                    // Other headers
+                    Object.keys(data[0]).forEach(key => {
+                        if (!orderedColumns.includes(key)) {
+                            table.find('thead tr').append(`<th>${formatTitle(key)}</th>`);
+                        }
+                    });
+                    // Rows
+                    data.forEach(item => {
+                        let row = '<tr>';
+                        // Ordered columns
+                        orderedColumns.forEach(column => {
+                            if (item.hasOwnProperty(column)) {
+                                row += `<td class="expandable" onclick="copyCellContentToClipboard(this)">${item[column]}</td>`;
+                            }
+                        });
+                        // Other columns
+                        Object.entries(item).forEach(([key, val]) => {
+                            if (!orderedColumns.includes(key)) {
+                                row += `<td class="expandable" onclick="copyCellContentToClipboard(this)">${val}</td>`;
+                            }
+                        });
+                        row += '</tr>';
+                        table.find('tbody').append(row);
+                    });
+                    $(targetDiv).html(table);
+                } else {
+                    $(targetDiv).html('No data available');
+                }
+            }
+
+            // Function to fetch and display data
+            function fetchData() {
+                $.ajax({
+                    url: '/usage_history/api/',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({ }),
+                    success: function(response) {
+                        if(response.courses) {
+                            renderTable(response.courses, '#courses .table-container', ['timestamp', 'topic_name', 'model_name', 'input_tokens', 'output_tokens']);
+                        }
+                        if(response.persona_usages) {
+                            renderTable(response.persona_usages, '#persona-usages .table-container', ['timestamp', 'title', 'model_name', 'retrieval_mode', 'web_browsing_mode', 'code_interpreter_mode', 'private_usage', 'public_usage', 'input_tokens', 'output_tokens']);
+                        }
+                        if(response.knowledge_files) {
+                            renderTable(response.knowledge_files, '#knowledge-files .table-container', [ 'timestamp', 'filename', 'file_id', 'file_size_in_gb']);
+                        }
+                        if(response.evaluations) {
+                            renderTable(response.evaluations, '#evaluations .table-container', ['timestamp', 'evaluation_name', 'selected_model', 'system_prompt', 'question_paper', 'answer_papers', 'input_tokens', 'output_tokens']);
+                        }
+                        if(response.news_items) {
+                            renderTable(response.news_items, '#news-items .table-container', ['last_update', 'alert name', 'alert url', 'prompt', 'model_name', 'summary_option', 'input_tokens', 'output_tokens']);
+                        }
+                        if(response.alumni_usage_data) {
+                            renderTable(response.alumni_usage_data, '#alumni-usage .table-container', ['last_update', 'alert name', 'alert url', 'prompt','model_name','summary_option','input_tokens', 'output_tokens','frequency','scheduler_id','time','timezone','user_id','username']);                        
+                        }
+                    },
+                    error: function(error) {
+                        console.error('Error fetching usage history data:', error);
+                }
+            });
+        }
+
+        fetchData();
+    });
+</script>
+{% include 'footer_2.html' %}
+
+</body>
+</html>
