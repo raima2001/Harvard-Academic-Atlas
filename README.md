@@ -157,9 +157,4 @@ Watch our video tutorials to explore the features of the Harvard Academic Atlas:
 - **[AC215 Final Video Presentation](https://youtu.be/oPg7MJ51P0E)** 🎥  
   Final 6 Minute Video Presentation by Team MasalaChai
 
----
 
-For any further assistance or feedback, please contact the **team members**:  
-- **Aditya Saxena**  
-- **Raima Islam**  
-- **Kumar Tanmay**  
